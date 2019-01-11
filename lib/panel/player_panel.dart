@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:tetris/material/briks.dart';
 import 'package:tetris/material/images.dart';
+import 'package:tetris/gamer/gamer.dart';
 
-const MATRIX_H = 20;
-const MATRIX_W = 10;
+const MATRIX_H = GAME_PAD_MATRIX_H;
+const MATRIX_W = GAME_PAD_MATRIX_W;
 
 ///the matrix of player content
 class PlayerPanel extends StatelessWidget {
@@ -27,11 +28,26 @@ class PlayerPanel extends StatelessWidget {
         ),
         child: Stack(
           children: <Widget>[
-            _PlayerBackground(),
+            _PlayerPad(),
             _GameUninitialized(),
           ],
         ),
       ),
+    );
+  }
+}
+
+class _PlayerPad extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: gamer.data.map((list) {
+        return Row(
+          children: list.map((b) {
+            return Brik(enable: b);
+          }).toList(),
+        );
+      }).toList(),
     );
   }
 }
@@ -51,24 +67,6 @@ class _GameUninitialized extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-}
-
-class _PlayerBackground extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    List<Widget> rows = [];
-    for (int i = 0; i < MATRIX_H; i++) {
-      List<Widget> children = [];
-      for (int j = 0; j < MATRIX_W; j++) {
-        children.add(Brik(enable: false));
-      }
-      Row row = Row(children: children);
-      rows.add(row);
-    }
-    return Column(
-      children: rows,
     );
   }
 }
