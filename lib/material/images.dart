@@ -32,7 +32,14 @@ class Number extends StatelessWidget {
   ///could be null
   final int number;
 
-  Number({Key key, this.length = 5, @required this.number}) : super(key: key);
+  final bool padWithZero;
+
+  Number(
+      {Key key,
+      this.length = 5,
+      @required this.number,
+      this.padWithZero = false})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +47,7 @@ class Number extends StatelessWidget {
     if (digitals.length > length) {
       digitals = digitals.substring(digitals.length - length);
     }
-    digitals = digitals.padLeft(length);
+    digitals = digitals.padLeft(length, padWithZero ? "0" : " ");
     List<Widget> children = [];
     for (int i = 0; i < length; i++) {
       children.add(Digital(int.tryParse(digitals[i])));

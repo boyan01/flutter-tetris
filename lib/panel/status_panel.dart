@@ -92,9 +92,9 @@ class _GameStatusState extends State<_GameStatus> {
         SizedBox(width: 4),
         IconPause(),
         Spacer(),
-        Number(number: _hour, length: 2),
+        Number(number: _hour, length: 2, padWithZero: true),
         IconColon(enable: _colonEnable),
-        Number(number: _minute, length: 2),
+        Number(number: _minute, length: 2, padWithZero: true),
       ],
     );
   }
