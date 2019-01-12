@@ -1,7 +1,29 @@
-# flutter-tetris
+#### English introduction
 
-a tetris game powered by flutter
+Please view [README_EN](https://github.com/boyan01/flutter-tetris/blob/master/README_EN.md)
 
-## Getting Started
+# Flutter俄罗斯方块
 
-This project is a starting point for a Flutter application.
+使用Flutter开发的俄罗斯方块游戏。
+
+参考来源于 [vue-tetris](https://github.com/Binaryify/vue-tetris) 。
+
+## 如何开始
+
+* 自行编译
+
+  安装[Flutter](https://flutter.io/docs/get-started/install)
+
+  在命令行输入：`flutter run --profile`
+
+* 前往[Release](https://github.com/boyan01/flutter-tetris/releases) 下载 Apk 包 （仅限Android）
+
+## 效果预览
+
+![效果预览](./_preview/game_gif.gif)
+
+
+
+## 其他
+
+MIT协议
