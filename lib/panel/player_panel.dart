@@ -41,10 +41,10 @@ class _PlayerPad extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: gamer.data.map((list) {
+      children: GameState.of(context).data.map((list) {
         return Row(
           children: list.map((b) {
-            return Brik(enable: b);
+            return Brik(enable: b == 1);
           }).toList(),
         );
       }).toList(),
@@ -55,18 +55,22 @@ class _PlayerPad extends StatelessWidget {
 class _GameUninitialized extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          IconDragon(animate: true),
-          SizedBox(height: 16),
-          Text(
-            "tetrix",
-            style: TextStyle(fontSize: 20),
-          ),
-        ],
-      ),
-    );
+    if (GameState.of(context).states == GameStates.none) {
+      return Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            IconDragon(animate: true),
+            SizedBox(height: 16),
+            Text(
+              "tetrix",
+              style: TextStyle(fontSize: 20),
+            ),
+          ],
+        ),
+      );
+    } else {
+      return Container();
+    }
   }
 }

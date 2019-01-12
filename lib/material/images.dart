@@ -85,6 +85,7 @@ class _IconDragonState extends State<IconDragon> {
   @override
   void initState() {
     super.initState();
+    _initAnimation();
   }
 
   void _initAnimation() {
@@ -137,12 +138,13 @@ class IconPause extends StatelessWidget {
 
   const IconPause({Key key, this.enable = true, this.size = const Size(18, 16)})
       : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return _Material(
       size: size,
       srcSize: const Size(20, 18),
-      srcOffset: enable ? const Offset(100, 75) : const Offset(75, 75),
+      srcOffset: enable ? const Offset(75, 75) : const Offset(100, 75),
     );
   }
 }
@@ -171,6 +173,7 @@ class IconColon extends StatelessWidget {
 
   const IconColon({Key key, this.enable = true, this.size = const Size(10, 17)})
       : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return _Material(

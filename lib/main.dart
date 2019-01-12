@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tetris/gamer/gamer.dart';
 import 'package:tetris/panel/screen.dart';
 import 'package:tetris/panel/controller.dart';
 
@@ -9,16 +10,18 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'tetris',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
       home: Scaffold(
-        body: _HomePage(),
+        body: Game(child: _HomePage()),
       ),
     );
   }
 }
+
+const SCREEN_BORDER_WIDTH = 3.0;
 
 class _HomePage extends StatelessWidget {
   @override
@@ -34,7 +37,33 @@ class _HomePage extends StatelessWidget {
           child: Column(
             children: <Widget>[
               Spacer(),
-              Screen(width: screenW),
+              Container(
+                decoration: BoxDecoration(
+                  border: Border(
+                    top: BorderSide(
+                        color: const Color(0xFF987f0f),
+                        width: SCREEN_BORDER_WIDTH),
+                    left: BorderSide(
+                        color: const Color(0xFF987f0f),
+                        width: SCREEN_BORDER_WIDTH),
+                    right: BorderSide(
+                        color: const Color(0xFFfae36c),
+                        width: SCREEN_BORDER_WIDTH),
+                    bottom: BorderSide(
+                        color: const Color(0xFFfae36c),
+                        width: SCREEN_BORDER_WIDTH),
+                  ),
+                ),
+                child: Container(
+                  decoration:
+                      BoxDecoration(border: Border.all(color: Colors.black54)),
+                  child: Container(
+                    decoration: BoxDecoration(
+                        border: Border.all(width: 6, color: SCREEN_BACKGROUND)),
+                    child: Screen(width: screenW),
+                  ),
+                ),
+              ),
               Spacer(),
               GameController(),
             ],

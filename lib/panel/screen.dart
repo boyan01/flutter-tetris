@@ -6,10 +6,10 @@ import 'package:tetris/material/images.dart';
 import 'player_panel.dart';
 import 'status_panel.dart';
 
-const Color _background = Color(0xff9ead86);
+const Color SCREEN_BACKGROUND = Color(0xff9ead86);
 
 class Screen extends StatefulWidget {
-  ///the with of scrren
+  ///the with of screen
   final double width;
 
   const Screen({Key key, @required this.width}) : super(key: key);
@@ -47,7 +47,7 @@ class ScreenState extends State<Screen> {
       height: playerPanelWidth * 2,
       width: widget.width,
       child: Container(
-        color: _background,
+        color: SCREEN_BACKGROUND,
         child: material == null
             ? null
             : Row(

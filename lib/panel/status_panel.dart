@@ -1,6 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:tetris/gamer/block.dart';
+import 'package:tetris/gamer/gamer.dart';
+import 'package:tetris/material/briks.dart';
 import 'package:tetris/material/images.dart';
 
 class StatusPanel extends StatelessWidget {
@@ -11,11 +14,21 @@ class StatusPanel extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          _NumberLine(title: "Points", number: 0),
+          Text("Points", style: TextStyle(fontWeight: FontWeight.bold)),
+          SizedBox(height: 4),
+          Number(number: GameState.of(context).points),
           SizedBox(height: 10),
-          _NumberLine(title: "Cleans", number: 0),
+          Text("Cleans", style: TextStyle(fontWeight: FontWeight.bold)),
+          SizedBox(height: 4),
+          Number(number: GameState.of(context).cleared),
           SizedBox(height: 10),
-          _NumberLine(title: "Level", number: 0),
+          Text("Level", style: TextStyle(fontWeight: FontWeight.bold)),
+          SizedBox(height: 4),
+          Number(number: GameState.of(context).level),
+          SizedBox(height: 10),
+          Text("Next", style: TextStyle(fontWeight: FontWeight.bold)),
+          SizedBox(height: 4),
+          _NextBlock(),
           Spacer(),
           _GameStatus(),
         ],
@@ -24,26 +37,24 @@ class StatusPanel extends StatelessWidget {
   }
 }
 
-///a status line which containes a number
-class _NumberLine extends StatelessWidget {
-  final String title;
-  final int number;
-
-  const _NumberLine({Key key, @required this.title, @required this.number})
-      : super(key: key);
-
+class _NextBlock extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Text(title, style: TextStyle(fontWeight: FontWeight.bold)),
-          SizedBox(height: 4),
-          Number(number: number),
-        ],
-      ),
+    List<List<int>> data = [List.filled(4, 0), List.filled(4, 0)];
+    final next = BLOCK_SHAPES[GameState.of(context).next.type];
+    for (int i = 0; i < next.length; i++) {
+      for (int j = 0; j < next[i].length; j++) {
+        data[i][j] = next[i][j];
+      }
+    }
+    return Column(
+      children: data.map((list) {
+        return Row(
+          children: list.map((b) {
+            return Brik(enable: b == 1);
+          }).toList(),
+        );
+      }).toList(),
     );
   }
 }
@@ -67,7 +78,6 @@ class _GameStatusState extends State<_GameStatus> {
   @override
   void initState() {
     super.initState();
-    debugPrint("init state");
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       final now = DateTime.now();
       setState(() {
@@ -88,9 +98,9 @@ class _GameStatusState extends State<_GameStatus> {
   Widget build(BuildContext context) {
     return Row(
       children: <Widget>[
-        IconSound(),
+        IconSound(enable: GameState.of(context).muted),
         SizedBox(width: 4),
-        IconPause(),
+        IconPause(enable: GameState.of(context).states == GameStates.paused),
         Spacer(),
         Number(number: _hour, length: 2, padWithZero: true),
         IconColon(enable: _colonEnable),

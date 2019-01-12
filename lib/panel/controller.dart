@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
@@ -10,17 +12,7 @@ class GameController extends StatelessWidget {
       height: 200,
       child: Row(
         children: <Widget>[
-          Expanded(
-              child: Container(
-            child: Center(
-              child: _Button(
-                size: Size(90, 90),
-                onTap: () {
-                  gamer.drop();
-                },
-              ),
-            ),
-          )),
+          Expanded(child: _LeftController()),
           Expanded(child: _DirectionController()),
         ],
       ),
@@ -29,6 +21,8 @@ class GameController extends StatelessWidget {
 }
 
 const Size _DIRECTION_BUTTON_SIZE = const Size(60, 60);
+
+const Size _SYSTEM_BUTTON_SIZE = const Size(28, 28);
 
 const double _DIRECTION_SPACE = 10;
 
@@ -46,15 +40,16 @@ class _DirectionController extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 _Button(
+                    enableLongPress: false,
                     size: _DIRECTION_BUTTON_SIZE,
                     onTap: () {
-                      gamer.rotate();
+                      Game.of(context).rotate();
                     }),
                 SizedBox(width: _DIRECTION_SPACE),
                 _Button(
                     size: _DIRECTION_BUTTON_SIZE,
                     onTap: () {
-                      gamer.right();
+                      Game.of(context).right();
                     }),
               ],
             ),
@@ -65,13 +60,13 @@ class _DirectionController extends StatelessWidget {
                 _Button(
                     size: _DIRECTION_BUTTON_SIZE,
                     onTap: () {
-                      gamer.left();
+                      Game.of(context).left();
                     }),
                 SizedBox(width: _DIRECTION_SPACE),
                 _Button(
                   size: _DIRECTION_BUTTON_SIZE,
                   onTap: () {
-                    gamer.down();
+                    Game.of(context).down();
                   },
                 ),
               ],
@@ -84,22 +79,152 @@ class _DirectionController extends StatelessWidget {
   }
 }
 
-enum Direction { up, down, left, right }
+class _LeftController extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            _SystemButton(
+              label: "SOUNDS",
+              onTap: () {
+                Game.of(context).soundSwitch();
+              },
+            ),
+            _SystemButton(
+              label: "PAUSE/RESUME",
+              onTap: () {
+                Game.of(context).pauseOrResume();
+              },
+            ),
+            _SystemButton(
+                color: Colors.red,
+                label: "RESET",
+                onTap: () {
+                  Game.of(context).reset();
+                })
+          ],
+        ),
+        Expanded(
+          child: Center(
+            child: _Button(
+              enableLongPress: false,
+              size: Size(90, 90),
+              onTap: () {
+                Game.of(context).drop();
+              },
+            ),
+          ),
+        )
+      ],
+    );
+  }
+}
 
-class _Button extends StatelessWidget {
+class _SystemButton extends StatelessWidget {
+  final Color color;
+  final String label;
+  final VoidCallback onTap;
+
+  const _SystemButton({
+    Key key,
+    this.color = Colors.blue,
+    @required this.label,
+    @required this.onTap,
+  })  : assert(label != null),
+        super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        _Button(
+          enableLongPress: false,
+          size: _SYSTEM_BUTTON_SIZE,
+          color: color,
+          onTap: onTap,
+        ),
+        SizedBox(height: 8),
+        Text(
+          label,
+          style: TextStyle(fontSize: 12),
+        )
+      ],
+    );
+  }
+}
+
+class _Button extends StatefulWidget {
   final Size size;
 
   final VoidCallback onTap;
 
-  const _Button({Key key, @required this.size, @required this.onTap})
+  ///the color of button
+  final Color color;
+
+  final bool enableLongPress;
+
+  const _Button(
+      {Key key,
+      @required this.size,
+      @required this.onTap,
+      this.color = Colors.blue,
+      this.enableLongPress = true})
       : super(key: key);
+
+  @override
+  _ButtonState createState() {
+    return new _ButtonState();
+  }
+}
+
+class _ButtonState extends State<_Button> {
+  Timer _timer;
+
+  bool _tapEnded = false;
 
   @override
   Widget build(BuildContext context) {
     return Material(
-      elevation: 4,
+      color: widget.color,
+      elevation: 2,
       shape: CircleBorder(),
-      child: InkResponse(onTap: onTap, child: SizedBox.fromSize(size: size)),
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTapDown: (_) async {
+          if (_timer != null) {
+            return;
+          }
+          _tapEnded = false;
+          widget.onTap();
+          if (!widget.enableLongPress) {
+            return;
+          }
+          await Future.delayed(const Duration(milliseconds: 300));
+          if (_tapEnded) {
+            return;
+          }
+          _timer = Timer.periodic(const Duration(milliseconds: 50), (t) {
+            if (!_tapEnded) {
+              widget.onTap();
+            } else {
+              t.cancel();
+              _timer = null;
+            }
+          });
+        },
+        onTapCancel: () {
+          _tapEnded = true;
+        },
+        onTapUp: (_) {
+          _tapEnded = true;
+          _timer?.cancel();
+          _timer = null;
+        },
+        child: SizedBox.fromSize(size: widget.size),
+      ),
     );
   }
 }
