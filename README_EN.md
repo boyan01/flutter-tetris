@@ -15,7 +15,7 @@ Inspired by [vue-tetris](https://github.com/Binaryify/vue-tetris).
 
   run in Command Line：`flutter run --profile`
 
-* download Apk file at page (https://github.com/boyan01/flutter-tetris/releases)（for Android only)
+* download Apk file at page [releases](https://github.com/boyan01/flutter-tetris/releases)（for Android only)
 
 ## Preview
 
