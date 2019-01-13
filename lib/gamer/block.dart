@@ -133,6 +133,7 @@ class Block {
   }
 
   ///return null if do not show at [x][y]
+  ///return 1 if show at [x,y]
   int get(int x, int y) {
     x -= xy[0];
     y -= xy[1];

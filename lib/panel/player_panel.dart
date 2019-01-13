@@ -44,7 +44,9 @@ class _PlayerPad extends StatelessWidget {
       children: GameState.of(context).data.map((list) {
         return Row(
           children: list.map((b) {
-            return Brik(enable: b == 1);
+            return b == 1
+                ? const Brik.normal()
+                : b == 2 ? const Brik.highlight() : const Brik.empty();
           }).toList(),
         );
       }).toList(),

@@ -3,27 +3,11 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'dart:ui' as ui;
 
-GameImages gameImages = GameImages._();
-
 ///the image data of /assets/material.png
 ui.Image material;
 
 const _DIGITAL_ROW_SIZE = Size(14, 24);
 
-class GameImages {
-  GameImages._();
-
-  Widget get number0 {
-    return SizedBox(
-      width: 14,
-      height: 24,
-      child: Transform.translate(
-        offset: const Offset(15, 15),
-        child: Image.asset("assets/material.png"),
-      ),
-    );
-  }
-}
 
 class Number extends StatelessWidget {
   final int length;
@@ -43,14 +27,14 @@ class Number extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String digitals = number?.toString() ?? "";
-    if (digitals.length > length) {
-      digitals = digitals.substring(digitals.length - length);
+    String digitalStr = number?.toString() ?? "";
+    if (digitalStr.length > length) {
+      digitalStr = digitalStr.substring(digitalStr.length - length);
     }
-    digitals = digitals.padLeft(length, padWithZero ? "0" : " ");
+    digitalStr = digitalStr.padLeft(length, padWithZero ? "0" : " ");
     List<Widget> children = [];
     for (int i = 0; i < length; i++) {
-      children.add(Digital(int.tryParse(digitals[i])));
+      children.add(Digital(int.tryParse(digitalStr[i])));
     }
     return Row(
       mainAxisSize: MainAxisSize.min,

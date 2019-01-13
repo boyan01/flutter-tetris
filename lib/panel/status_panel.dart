@@ -51,7 +51,7 @@ class _NextBlock extends StatelessWidget {
       children: data.map((list) {
         return Row(
           children: list.map((b) {
-            return Brik(enable: b == 1);
+            return b == 1 ? const Brik.normal() : const Brik.empty();
           }).toList(),
         );
       }).toList(),
