@@ -88,12 +88,14 @@ class _LeftController extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             _SystemButton(
+              color: const Color(0xFF2dc421),
               label: "SOUNDS",
               onTap: () {
                 Game.of(context).soundSwitch();
               },
             ),
             _SystemButton(
+              color: const Color(0xFF2dc421),
               label: "PAUSE/RESUME",
               onTap: () {
                 Game.of(context).pauseOrResume();
@@ -140,12 +142,14 @@ class _SystemButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        _Button(
-          enableLongPress: false,
-          size: _SYSTEM_BUTTON_SIZE,
-          color: color,
-          onTap: onTap,
-        ),
+        ClipOval(
+            child: SizedBox.fromSize(
+                size: _SYSTEM_BUTTON_SIZE,
+                child: RaisedButton(
+                  onPressed: onTap,
+                  child: Container(),
+                  color: color,
+                ))),
         SizedBox(height: 8),
         Text(
           label,
@@ -185,15 +189,32 @@ class _ButtonState extends State<_Button> {
 
   bool _tapEnded = false;
 
+  Color _color;
+
+  @override
+  void didUpdateWidget(_Button oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _color = widget.color;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _color = widget.color;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: widget.color,
+      color: _color,
       elevation: 2,
       shape: CircleBorder(),
       child: GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTapDown: (_) async {
+          setState(() {
+            _color = widget.color.withOpacity(0.5);
+          });
           if (_timer != null) {
             return;
           }
@@ -206,7 +227,7 @@ class _ButtonState extends State<_Button> {
           if (_tapEnded) {
             return;
           }
-          _timer = Timer.periodic(const Duration(milliseconds: 50), (t) {
+          _timer = Timer.periodic(const Duration(milliseconds: 60), (t) {
             if (!_tapEnded) {
               widget.onTap();
             } else {
@@ -217,11 +238,19 @@ class _ButtonState extends State<_Button> {
         },
         onTapCancel: () {
           _tapEnded = true;
+          _timer?.cancel();
+          _timer = null;
+          setState(() {
+            _color = widget.color;
+          });
         },
         onTapUp: (_) {
           _tapEnded = true;
           _timer?.cancel();
           _timer = null;
+          setState(() {
+            _color = widget.color;
+          });
         },
         child: SizedBox.fromSize(size: widget.size),
       ),

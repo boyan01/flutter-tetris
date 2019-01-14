@@ -115,8 +115,7 @@ class Block {
   }
 
   bool isValidInMatrix(List<List<int>> matrix) {
-    if (xy[1] < 0 ||
-        xy[1] + shape.length > GAME_PAD_MATRIX_H ||
+    if (xy[1] + shape.length > GAME_PAD_MATRIX_H ||
         xy[0] < 0 ||
         xy[0] + shape[0].length > GAME_PAD_MATRIX_W) {
       return false;

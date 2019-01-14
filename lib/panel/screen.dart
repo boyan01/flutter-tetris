@@ -4,6 +4,7 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:tetris/gamer/gamer.dart';
+import 'package:tetris/material/briks.dart';
 import 'package:tetris/material/images.dart';
 import 'package:vector_math/vector_math_64.dart' as v;
 
@@ -47,6 +48,23 @@ class ScreenState extends State<Screen> {
   Widget build(BuildContext context) {
     //play panel need 70%
     final playerPanelWidth = widget.width * 0.6;
+
+    Widget screen;
+    if (material != null) {
+      screen = BrikSize(
+        size: getBrikSizeForScreenWidth(playerPanelWidth),
+        child: Row(
+          children: <Widget>[
+            PlayerPanel(width: playerPanelWidth),
+            SizedBox(
+              width: widget.width - playerPanelWidth,
+              child: StatusPanel(),
+            )
+          ],
+        ),
+      );
+    }
+
     return Shake(
       shake: GameState.of(context).states == GameStates.drop,
       child: SizedBox(
@@ -54,17 +72,7 @@ class ScreenState extends State<Screen> {
         width: widget.width,
         child: Container(
           color: SCREEN_BACKGROUND,
-          child: material == null
-              ? null
-              : Row(
-                  children: <Widget>[
-                    PlayerPanel(width: playerPanelWidth),
-                    SizedBox(
-                      width: widget.width - playerPanelWidth,
-                      child: StatusPanel(),
-                    )
-                  ],
-                ),
+          child: screen,
         ),
       ),
     );
@@ -90,7 +98,7 @@ class _ShakeState extends State<Shake> with TickerProviderStateMixin {
   @override
   void initState() {
     _controller =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 200))
+        AnimationController(vsync: this, duration: Duration(milliseconds: 150))
           ..addListener(() {
             setState(() {});
           });
@@ -113,7 +121,7 @@ class _ShakeState extends State<Shake> with TickerProviderStateMixin {
 
   v.Vector3 getTranslation() {
     double progress = _controller.value;
-    double offset = sin(progress * pi * 2);
+    double offset = sin(progress * pi) * 1.5;
     return v.Vector3(0, offset, 0.0);
   }
 

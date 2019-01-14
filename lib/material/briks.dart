@@ -1,13 +1,32 @@
 import 'package:flutter/material.dart';
 
-///the size of a single brik
-Size brikSize = Size(16, 16);
-
 const _COLOR_NORMAL = Colors.black87;
 
 const _COLOR_NULL = Colors.black12;
 
-const _COLOR_HIGHLIGHT = Color(0xFF3E2723);
+const _COLOR_HIGHLIGHT = Color(0xFF560000);
+
+class BrikSize extends InheritedWidget {
+  const BrikSize({
+    Key key,
+    @required this.size,
+    @required Widget child,
+  })  : assert(child != null),
+        super(key: key, child: child);
+
+  final Size size;
+
+  static BrikSize of(BuildContext context) {
+    final brikSize = context.inheritFromWidgetOfExactType(BrikSize) as BrikSize;
+    assert(brikSize != null, "....");
+    return brikSize;
+  }
+
+  @override
+  bool updateShouldNotify(BrikSize old) {
+    return old.size != size;
+  }
+}
 
 ///the basic brik for game panel
 class Brik extends StatelessWidget {
@@ -24,7 +43,7 @@ class Brik extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox.fromSize(
-      size: brikSize,
+      size: BrikSize.of(context).size,
       child: Container(
         margin: EdgeInsets.all(1),
         padding: EdgeInsets.all(2),

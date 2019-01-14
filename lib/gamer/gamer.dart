@@ -158,7 +158,7 @@ class GameControl extends State<Game> {
           _current = _current.fall(step: i);
           _states = GameStates.drop;
           setState(() {});
-          await Future.delayed(const Duration(milliseconds: 50));
+          await Future.delayed(const Duration(milliseconds: 100));
           _mixCurrentIntoData();
           break;
         }
@@ -207,13 +207,15 @@ class GameControl extends State<Game> {
     if (clearLines.isNotEmpty) {
       setState(() => _states = GameStates.clear);
 
+      sounds.clear();
+
       ///消除效果动画
-      for (int count = 0; count < 6; count++) {
+      for (int count = 0; count < 5; count++) {
         clearLines.forEach((line) {
           _mask[line].fillRange(0, GAME_PAD_MATRIX_W, count % 2 == 0 ? -1 : 1);
         });
         setState(() {});
-        await Future.delayed(Duration(milliseconds: 80));
+        await Future.delayed(Duration(milliseconds: 100));
       }
       clearLines
           .forEach((line) => _mask[line].fillRange(0, GAME_PAD_MATRIX_W, 0));
@@ -235,7 +237,7 @@ class GameControl extends State<Game> {
       _states = GameStates.mixing;
       _forTable((i, j) => _mask[i][j] = _current.get(j, i) ?? _mask[i][j]);
       setState(() {});
-      await Future.delayed(const Duration(milliseconds: 120));
+      await Future.delayed(const Duration(milliseconds: 200));
       _forTable((i, j) => _mask[i][j] = 0);
       setState(() {});
     }
@@ -244,15 +246,13 @@ class GameControl extends State<Game> {
     _current = null;
 
     //检查游戏是否结束,即检查第一行是否有元素为1
-    for (var item in _data[0]) {
-      if (item != 0) {
-        reset();
-        return;
-      }
+    if (_data[0].contains(1)) {
+      reset();
+      return;
+    } else {
+      //游戏尚未结束，开启下一轮方块下落
+      _startGame();
     }
-
-    //游戏尚未结束，开启下一轮方块下落
-    _startGame();
   }
 
   ///遍历表格

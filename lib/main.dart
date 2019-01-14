@@ -58,8 +58,8 @@ class _HomePage extends StatelessWidget {
                   decoration:
                       BoxDecoration(border: Border.all(color: Colors.black54)),
                   child: Container(
-                    decoration: BoxDecoration(
-                        border: Border.all(width: 6, color: SCREEN_BACKGROUND)),
+                    padding: const EdgeInsets.all(3),
+                    color: SCREEN_BACKGROUND,
                     child: Screen(width: screenW),
                   ),
                 ),
