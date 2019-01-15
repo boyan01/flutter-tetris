@@ -57,7 +57,7 @@ class Game extends StatefulWidget {
   }
 }
 
-///duration for show a line when reseting
+///duration for show a line when reset
 const _REST_LINE_DURATION = const Duration(milliseconds: 50);
 
 const _LEVEL_MAX = 6;
@@ -87,10 +87,10 @@ class GameControl extends State<Game> {
 
   ///在 [build] 方法中于 [_data]混合，形成一个新的矩阵
   ///[_mask]矩阵的宽高与 [_data] 一致
-  ///对于任意的 _shinning[x,y] ：
+  ///对于任意的 _mask[x,y] ：
   /// 如果值为 0,则对 [_data]没有任何影响
   /// 如果值为 -1,则表示 [_data] 中该行不显示
-  /// 如果值为 1，则表示 [_data] 中改行高亮
+  /// 如果值为 1，则表示 [_data] 中该行高亮
   final List<List<int>> _mask = [];
 
   ///from 1-6
@@ -154,12 +154,11 @@ class GameControl extends State<Game> {
       for (int i = 0; i < GAME_PAD_MATRIX_H; i++) {
         final fall = _current.fall(step: i + 1);
         if (!fall.isValidInMatrix(_data)) {
-          sounds.fall();
           _current = _current.fall(step: i);
           _states = GameStates.drop;
           setState(() {});
           await Future.delayed(const Duration(milliseconds: 100));
-          _mixCurrentIntoData();
+          _mixCurrentIntoData(mixSound: sounds.fall);
           break;
         }
       }
@@ -187,7 +186,7 @@ class GameControl extends State<Game> {
   Timer _autoFallTimer;
 
   ///mix current into [_data]
-  Future<void> _mixCurrentIntoData() async {
+  Future<void> _mixCurrentIntoData({void mixSound()}) async {
     if (_current == null) {
       return;
     }
@@ -235,6 +234,7 @@ class GameControl extends State<Game> {
       _level = level <= _LEVEL_MAX && level > _level ? level : _level;
     } else {
       _states = GameStates.mixing;
+      if (mixSound != null) mixSound();
       _forTable((i, j) => _mask[i][j] = _current.get(j, i) ?? _mask[i][j]);
       setState(() {});
       await Future.delayed(const Duration(milliseconds: 200));

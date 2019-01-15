@@ -37,13 +37,9 @@ class Sounds {
     final player = _audioPlayer.fixedPlayer;
     await player.seek(start);
     await player.resume();
-    final end = start + length;
-    player.positionHandler = (duration) {
-      if (duration >= end) {
-        player.pause();
-        _playing = false;
-      }
-    };
+    await Future.delayed(length);
+    player.pause();
+    _playing = false;
   }
 
   void start() {
