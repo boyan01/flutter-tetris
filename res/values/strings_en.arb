@@ -1,0 +1,9 @@
+{
+  "pause_resume": "PAUSE/RESUME",
+  "reset": "RESET",
+  "sounds": "SOUNDS",
+  "points": "Points",
+  "cleans": "Cleans",
+  "level": "Level",
+  "next": "Next"
+}

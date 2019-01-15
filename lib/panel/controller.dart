@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
 import 'package:tetris/gamer/gamer.dart';
+import 'package:tetris/generated/i18n.dart';
 
 class GameController extends StatelessWidget {
   @override
@@ -89,21 +90,21 @@ class _LeftController extends StatelessWidget {
           children: <Widget>[
             _SystemButton(
               color: const Color(0xFF2dc421),
-              label: "SOUNDS",
+              label: S.of(context).sounds,
               onTap: () {
                 Game.of(context).soundSwitch();
               },
             ),
             _SystemButton(
               color: const Color(0xFF2dc421),
-              label: "PAUSE/RESUME",
+              label: S.of(context).pause_resume,
               onTap: () {
                 Game.of(context).pauseOrResume();
               },
             ),
             _SystemButton(
                 color: Colors.red,
-                label: "RESET",
+                label: S.of(context).reset,
                 onTap: () {
                   Game.of(context).reset();
                 })

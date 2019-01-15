@@ -1,9 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:tetris/gamer/gamer.dart';
+import 'package:tetris/generated/i18n.dart';
 import 'package:tetris/panel/screen.dart';
 import 'package:tetris/panel/controller.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  _disableDebugPrint();
+  runApp(MyApp());
+}
+
+void _disableDebugPrint() {
+  bool debug = false;
+  assert(() {
+    debug = true;
+    return true;
+  }());
+  if (!debug) {
+    debugPrint = (String message, {int wrapWidth}) {
+      //disable log print when not in debug mode
+    };
+  }
+}
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -11,6 +29,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'tetris',
+      localizationsDelegates: [
+        S.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate
+      ],
+      supportedLocales: S.delegate.supportedLocales,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
