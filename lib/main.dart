@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:tetris/gamer/gamer.dart';
 import 'package:tetris/generated/i18n.dart';
-import 'package:tetris/income/donation_dialog.dart';
-import 'package:tetris/panel/controller.dart';
-import 'package:tetris/panel/screen.dart';
+import 'package:tetris/panel/page_portrait.dart';
 
 void main() {
   _disableDebugPrint();
@@ -51,65 +49,13 @@ class MyApp extends StatelessWidget {
 
 const SCREEN_BORDER_WIDTH = 3.0;
 
+const BACKGROUND_COLOR = const Color(0xffefcc19);
+
 class _HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    final screenW = size.width * 0.8;
-
-    return SizedBox.expand(
-      child: Container(
-        color: Color(0xffefcc19),
-        child: Padding(
-          padding: MediaQuery.of(context).padding,
-          child: Column(
-            children: <Widget>[
-              Row(
-                children: <Widget>[
-                  Spacer(),
-                  FlatButton(
-                      onPressed: () {
-                        showDialog(
-                            context: context,
-                            builder: (context) => DonationDialog());
-                      },
-                      child: Text(S.of(context).reward))
-                ],
-              ),
-              Spacer(),
-              Container(
-                decoration: BoxDecoration(
-                  border: Border(
-                    top: BorderSide(
-                        color: const Color(0xFF987f0f),
-                        width: SCREEN_BORDER_WIDTH),
-                    left: BorderSide(
-                        color: const Color(0xFF987f0f),
-                        width: SCREEN_BORDER_WIDTH),
-                    right: BorderSide(
-                        color: const Color(0xFFfae36c),
-                        width: SCREEN_BORDER_WIDTH),
-                    bottom: BorderSide(
-                        color: const Color(0xFFfae36c),
-                        width: SCREEN_BORDER_WIDTH),
-                  ),
-                ),
-                child: Container(
-                  decoration:
-                      BoxDecoration(border: Border.all(color: Colors.black54)),
-                  child: Container(
-                    padding: const EdgeInsets.all(3),
-                    color: SCREEN_BACKGROUND,
-                    child: Screen(width: screenW),
-                  ),
-                ),
-              ),
-              Spacer(flex: 2),
-              GameController(),
-            ],
-          ),
-        ),
-      ),
-    );
+    return MediaQuery.of(context).orientation == Orientation.landscape
+        ? PageLand()
+        : PagePortrait();
   }
 }

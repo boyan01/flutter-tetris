@@ -21,6 +21,10 @@ Inspired by [vue-tetris](https://github.com/Binaryify/vue-tetris).
 
 ![preview](./_preview/game_gif.gif)
 
+support landscape
+
+![land](./_preview/screen_land.jpg)
+
 ## Other
 
 MIT License

@@ -22,6 +22,9 @@ Please view [README_EN](https://github.com/boyan01/flutter-tetris/blob/master/RE
 
 ![效果预览](./_preview/game_gif.gif)
 
+支持横屏模式
+
+![横屏](./_preview/screen_land.jpg)
 
 
 ## 其他

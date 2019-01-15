@@ -42,12 +42,14 @@ class Brik extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = BrikSize.of(context).size.width;
     return SizedBox.fromSize(
       size: BrikSize.of(context).size,
       child: Container(
-        margin: EdgeInsets.all(1),
-        padding: EdgeInsets.all(2),
-        decoration: BoxDecoration(border: Border.all(width: 2, color: color)),
+        margin: EdgeInsets.all(0.05 * width),
+        padding: EdgeInsets.all(0.1 * width),
+        decoration:
+            BoxDecoration(border: Border.all(width: 0.10 * width, color: color)),
         child: Container(
           color: color,
         ),

@@ -13,8 +13,8 @@ class GameController extends StatelessWidget {
       height: 200,
       child: Row(
         children: <Widget>[
-          Expanded(child: _LeftController()),
-          Expanded(child: _DirectionController()),
+          Expanded(child: LeftController()),
+          Expanded(child: DirectionController()),
         ],
       ),
     );
@@ -27,10 +27,11 @@ const Size _SYSTEM_BUTTON_SIZE = const Size(28, 28);
 
 const double _DIRECTION_SPACE = 10;
 
-class _DirectionController extends StatelessWidget {
+class DirectionController extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return SizedBox.fromSize(
+      size: _DIRECTION_BUTTON_SIZE * 2 * 1.41,
       child: Transform.rotate(
         angle: math.pi / 4,
         child: Column(
@@ -80,45 +81,59 @@ class _DirectionController extends StatelessWidget {
   }
 }
 
-class _LeftController extends StatelessWidget {
+class SystemButtonGroup extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: <Widget>[
+        _SystemButton(
+          color: const Color(0xFF2dc421),
+          label: S.of(context).sounds,
+          onTap: () {
+            Game.of(context).soundSwitch();
+          },
+        ),
+        _SystemButton(
+          color: const Color(0xFF2dc421),
+          label: S.of(context).pause_resume,
+          onTap: () {
+            Game.of(context).pauseOrResume();
+          },
+        ),
+        _SystemButton(
+            color: Colors.red,
+            label: S.of(context).reset,
+            onTap: () {
+              Game.of(context).reset();
+            })
+      ],
+    );
+  }
+}
+
+class DropButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return _Button(
+        enableLongPress: false,
+        size: Size(90, 90),
+        onTap: () {
+          Game.of(context).drop();
+        });
+  }
+}
+
+class LeftController extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            _SystemButton(
-              color: const Color(0xFF2dc421),
-              label: S.of(context).sounds,
-              onTap: () {
-                Game.of(context).soundSwitch();
-              },
-            ),
-            _SystemButton(
-              color: const Color(0xFF2dc421),
-              label: S.of(context).pause_resume,
-              onTap: () {
-                Game.of(context).pauseOrResume();
-              },
-            ),
-            _SystemButton(
-                color: Colors.red,
-                label: S.of(context).reset,
-                onTap: () {
-                  Game.of(context).reset();
-                })
-          ],
-        ),
+        SystemButtonGroup(),
         Expanded(
           child: Center(
-            child: _Button(
-              enableLongPress: false,
-              size: Size(90, 90),
-              onTap: () {
-                Game.of(context).drop();
-              },
-            ),
+            child: DropButton(),
           ),
         )
       ],

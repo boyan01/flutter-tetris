@@ -13,11 +13,14 @@ import 'status_panel.dart';
 
 const Color SCREEN_BACKGROUND = Color(0xff9ead86);
 
+/// screen H : W;
 class Screen extends StatefulWidget {
   ///the with of screen
   final double width;
 
   const Screen({Key key, @required this.width}) : super(key: key);
+
+  Screen.fromHeight(double height) : this(width: ((height - 6) / 2 + 6) / 0.6);
 
   @override
   ScreenState createState() {
@@ -46,9 +49,8 @@ class ScreenState extends State<Screen> {
 
   @override
   Widget build(BuildContext context) {
-    //play panel need 70%
+    //play panel need 60%
     final playerPanelWidth = widget.width * 0.6;
-
     Widget screen;
     if (material != null) {
       screen = BrikSize(
@@ -68,7 +70,7 @@ class ScreenState extends State<Screen> {
     return Shake(
       shake: GameState.of(context).states == GameStates.drop,
       child: SizedBox(
-        height: playerPanelWidth * 2,
+        height: (playerPanelWidth - 6) * 2 + 6,
         width: widget.width,
         child: Container(
           color: SCREEN_BACKGROUND,
