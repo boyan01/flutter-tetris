@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:tetris/gamer/gamer.dart';
 import 'package:tetris/generated/i18n.dart';
-import 'package:tetris/panel/screen.dart';
+import 'package:tetris/income/donation_dialog.dart';
 import 'package:tetris/panel/controller.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:tetris/panel/screen.dart';
 
 void main() {
   _disableDebugPrint();
@@ -23,6 +24,8 @@ void _disableDebugPrint() {
   }
 }
 
+final RouteObserver<ModalRoute> routeObserver = RouteObserver<ModalRoute>();
+
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
@@ -34,6 +37,7 @@ class MyApp extends StatelessWidget {
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate
       ],
+      navigatorObservers: [routeObserver],
       supportedLocales: S.delegate.supportedLocales,
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -60,6 +64,18 @@ class _HomePage extends StatelessWidget {
           padding: MediaQuery.of(context).padding,
           child: Column(
             children: <Widget>[
+              Row(
+                children: <Widget>[
+                  Spacer(),
+                  FlatButton(
+                      onPressed: () {
+                        showDialog(
+                            context: context,
+                            builder: (context) => DonationDialog());
+                      },
+                      child: Text(S.of(context).reward))
+                ],
+              ),
               Spacer(),
               Container(
                 decoration: BoxDecoration(
@@ -88,7 +104,7 @@ class _HomePage extends StatelessWidget {
                   ),
                 ),
               ),
-              Spacer(),
+              Spacer(flex: 2),
               GameController(),
             ],
           ),

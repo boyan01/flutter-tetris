@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:tetris/gamer/block.dart';
+import 'package:tetris/main.dart';
 import 'package:tetris/material/audios.dart';
 
 ///the height of game pad
@@ -73,13 +74,31 @@ const _SPEED = [
   const Duration(milliseconds: 160),
 ];
 
-class GameControl extends State<Game> {
+class GameControl extends State<Game> with RouteAware {
   GameControl() {
     //inflate game pad data
     for (int i = 0; i < GAME_PAD_MATRIX_H; i++) {
       _data.add(List.filled(GAME_PAD_MATRIX_W, 0));
       _mask.add(List.filled(GAME_PAD_MATRIX_W, 0));
     }
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    routeObserver.subscribe(this, ModalRoute.of(context));
+  }
+
+  @override
+  void dispose() {
+    routeObserver.unsubscribe(this);
+    super.dispose();
+  }
+
+  @override
+  void didPushNext() {
+    //pause when screen is at background
+    pause();
   }
 
   ///the gamer data
@@ -320,6 +339,7 @@ class GameControl extends State<Game> {
         return line != 0;
       });
       _current = null;
+      _getNext();
       _points = 0;
       _cleared = 0;
       await Future.doWhile(() async {

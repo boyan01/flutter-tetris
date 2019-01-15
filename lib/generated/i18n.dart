@@ -25,6 +25,7 @@ class S implements WidgetsLocalizations {
   String get pause_resume => "PAUSE/RESUME";
   String get points => "Points";
   String get reset => "RESET";
+  String get reward => "Reward";
   String get sounds => "SOUNDS";
 }
 
@@ -40,6 +41,8 @@ class $zh_CN extends S {
 
   @override
   String get next => "下一个";
+  @override
+  String get reward => "赞赏";
   @override
   String get sounds => "声音";
   @override
