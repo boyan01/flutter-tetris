@@ -19,8 +19,7 @@ dependencies:
     sdk: flutter
   overlay_support:
     git:
-      url: git://github.com/boyan01/quiet-flutter.git
-      path: overlay_support
+      url: git://github.com/boyan01/overlay_support.git
   audioplayers: ^0.8.0
 
 dev_dependencies:
