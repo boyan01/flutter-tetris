@@ -295,7 +295,7 @@ class GameControl extends State<Game> with RouteAware {
     } else if (enable) {
       _autoFallTimer?.cancel();
       _current = _current ?? _getNext();
-      _autoFallTimer = Timer.periodic(_SPEED[_level], (t) {
+      _autoFallTimer = Timer.periodic(_SPEED[_level - 1], (t) {
         down(enableSounds: false);
       });
     }
