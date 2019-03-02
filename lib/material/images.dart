@@ -1,13 +1,11 @@
 import 'dart:async';
-
-import 'package:flutter/material.dart';
 import 'dart:ui' as ui;
 
-///the image data of /assets/material.png
-ui.Image material;
+import 'package:flutter/material.dart';
+
+import 'material.dart';
 
 const _DIGITAL_ROW_SIZE = Size(14, 24);
-
 
 class Number extends StatelessWidget {
   final int length;
@@ -214,7 +212,8 @@ class _Material extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomPaint(
-      foregroundPainter: _MaterialPainter(srcOffset, srcSize),
+      foregroundPainter: _MaterialPainter(
+          srcOffset, srcSize, GameMaterial.getMaterial(context)),
       child: SizedBox.fromSize(
         size: size,
       ),
@@ -223,13 +222,15 @@ class _Material extends StatelessWidget {
 }
 
 class _MaterialPainter extends CustomPainter {
-  ///offset to ajust the drawing
+  ///offset to adjust the drawing
   final Offset offset;
 
   ///the size we pick from [_material]
   final Size size;
 
-  _MaterialPainter(this.offset, this.size);
+  final ui.Image material;
+
+  _MaterialPainter(this.offset, this.size, this.material);
 
   Paint _paint = Paint();
 

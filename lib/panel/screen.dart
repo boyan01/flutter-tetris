@@ -1,11 +1,9 @@
 import 'dart:math';
-import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:tetris/gamer/gamer.dart';
 import 'package:tetris/material/briks.dart';
-import 'package:tetris/material/images.dart';
+import 'package:tetris/material/material.dart';
 import 'package:vector_math/vector_math_64.dart' as v;
 
 import 'player_panel.dart';
@@ -14,7 +12,7 @@ import 'status_panel.dart';
 const Color SCREEN_BACKGROUND = Color(0xff9ead86);
 
 /// screen H : W;
-class Screen extends StatefulWidget {
+class Screen extends StatelessWidget {
   ///the with of screen
   final double width;
 
@@ -23,58 +21,30 @@ class Screen extends StatefulWidget {
   Screen.fromHeight(double height) : this(width: ((height - 6) / 2 + 6) / 0.6);
 
   @override
-  ScreenState createState() {
-    return new ScreenState();
-  }
-}
-
-class ScreenState extends State<Screen> {
-  @override
-  void initState() {
-    super.initState();
-    _doLoadMaterial();
-  }
-
-  void _doLoadMaterial() async {
-    if (material != null) {
-      return;
-    }
-    final bytes = await rootBundle.load("assets/material.png");
-    final codec = await ui.instantiateImageCodec(bytes.buffer.asUint8List());
-    final frame = await codec.getNextFrame();
-    setState(() {
-      material = frame.image;
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
     //play panel need 60%
-    final playerPanelWidth = widget.width * 0.6;
-    Widget screen;
-    if (material != null) {
-      screen = BrikSize(
-        size: getBrikSizeForScreenWidth(playerPanelWidth),
-        child: Row(
-          children: <Widget>[
-            PlayerPanel(width: playerPanelWidth),
-            SizedBox(
-              width: widget.width - playerPanelWidth,
-              child: StatusPanel(),
-            )
-          ],
-        ),
-      );
-    }
-
+    final playerPanelWidth = width * 0.6;
     return Shake(
       shake: GameState.of(context).states == GameStates.drop,
       child: SizedBox(
         height: (playerPanelWidth - 6) * 2 + 6,
-        width: widget.width,
+        width: width,
         child: Container(
           color: SCREEN_BACKGROUND,
-          child: screen,
+          child: GameMaterial(
+            child: BrikSize(
+              size: getBrikSizeForScreenWidth(playerPanelWidth),
+              child: Row(
+                children: <Widget>[
+                  PlayerPanel(width: playerPanelWidth),
+                  SizedBox(
+                    width: width - playerPanelWidth,
+                    child: StatusPanel(),
+                  )
+                ],
+              ),
+            ),
+          ),
         ),
       ),
     );
@@ -84,6 +54,7 @@ class ScreenState extends State<Screen> {
 class Shake extends StatefulWidget {
   final Widget child;
 
+  ///true to shake screen vertically
   final bool shake;
 
   const Shake({Key key, @required this.child, @required this.shake})
@@ -121,7 +92,7 @@ class _ShakeState extends State<Shake> with TickerProviderStateMixin {
     super.dispose();
   }
 
-  v.Vector3 getTranslation() {
+  v.Vector3 _getTranslation() {
     double progress = _controller.value;
     double offset = sin(progress * pi) * 1.5;
     return v.Vector3(0, offset, 0.0);
@@ -130,7 +101,7 @@ class _ShakeState extends State<Shake> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Transform(
-      transform: Matrix4.translation(getTranslation()),
+      transform: Matrix4.translation(_getTranslation()),
       child: widget.child,
     );
   }
