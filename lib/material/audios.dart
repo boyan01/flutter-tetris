@@ -1,14 +1,14 @@
+import 'dart:io';
+
 import 'package:audioplayers/audio_cache.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:flutter/material.dart';
 
 Sounds sounds = Sounds._();
 
 class Sounds {
-  final _audioPlayer = AudioCache(fixedPlayer: AudioPlayer());
-
-  bool _initialized = false;
-
-  bool _playing = false;
+  //the media file in application dir
+  File _file;
 
   bool muted = false;
 
@@ -17,29 +17,24 @@ class Sounds {
   }
 
   void _init() async {
-    final player = _audioPlayer.fixedPlayer;
-    player.setReleaseMode(ReleaseMode.STOP);
-    player.audioPlayerStateChangeHandler = (state) {
-      if (state == AudioPlayerState.PLAYING) {
-        player.pause();
-        _initialized = true;
-        player.audioPlayerStateChangeHandler = null;
-      }
-    };
-    await _audioPlayer.play("music.mp3");
+    final audio = AudioCache();
+    audio.load('music.mp3').then((file) {
+      _file = file;
+      debugPrint('file loaded : ${file.path}');
+    }).catchError((e) {
+      debugPrint('load music.mp3 failed : $e');
+    });
   }
 
   void _play(Duration start, Duration length) async {
-    if (!_initialized || _playing || muted) {
+    if (_file == null || muted) {
       return;
     }
-    _playing = true;
-    final player = _audioPlayer.fixedPlayer;
-    await player.seek(start);
-    await player.resume();
+    final player = AudioPlayer();
+    await player.play(_file.path, isLocal: true, position: start);
     await Future.delayed(length);
-    player.pause();
-    _playing = false;
+    await player.stop();
+    player.release();
   }
 
   void start() {
