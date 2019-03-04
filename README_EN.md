@@ -2,6 +2,9 @@
 
 请前往 [README](https://github.com/boyan01/flutter-tetris/blob/master/README.md)
 # flutter-tetris
+<a href="https://github.com/Solido/awesome-flutter">
+   <img alt="Awesome Flutter" src="https://img.shields.io/badge/Awesome-Flutter-blue.svg?longCache=true&style=flat-square" />
+</a>
 
 a tetris game powered by flutter.
 

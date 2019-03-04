@@ -3,6 +3,9 @@
 Please view [README_EN](https://github.com/boyan01/flutter-tetris/blob/master/README_EN.md)
 
 # Flutter俄罗斯方块
+<a href="https://github.com/Solido/awesome-flutter">
+   <img alt="Awesome Flutter" src="https://img.shields.io/badge/Awesome-Flutter-blue.svg?longCache=true&style=flat-square" />
+</a>
 
 使用Flutter开发的俄罗斯方块游戏。
 
