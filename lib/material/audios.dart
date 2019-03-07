@@ -1,72 +1,88 @@
-import 'package:audioplayers/audio_cache.dart';
-import 'package:audioplayers/audioplayers.dart';
+import 'dart:async';
 
-Sounds sounds = Sounds._();
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:soundpool/soundpool.dart';
 
-class Sounds {
-  final _audioPlayer = AudioCache(fixedPlayer: AudioPlayer());
+class Sound extends StatefulWidget {
+  final Widget child;
 
-  bool _initialized = false;
+  const Sound({Key key, this.child}) : super(key: key);
 
-  bool _playing = false;
+  @override
+  SoundState createState() => SoundState();
 
-  bool muted = false;
-
-  Sounds._() {
-    _init();
+  static SoundState of(BuildContext context) {
+    final state = context.ancestorStateOfType(const TypeMatcher<SoundState>());
+    assert(state != null, 'can not find Sound widget');
+    return state;
   }
+}
 
-  void _init() async {
-    final player = _audioPlayer.fixedPlayer;
-    player.setReleaseMode(ReleaseMode.STOP);
-    player.audioPlayerStateChangeHandler = (state) {
-      if (state == AudioPlayerState.PLAYING) {
-        player.pause();
-        _initialized = true;
-        player.audioPlayerStateChangeHandler = null;
-      }
-    };
-    await _audioPlayer.play("music.mp3");
-  }
+const _SOUNDS = [
+  'clean.mp3',
+  'drop.mp3',
+  'explosion.mp3',
+  'move.mp3',
+  'rotate.mp3',
+  'start.mp3'
+];
 
-  void _play(Duration start, Duration length) async {
-    if (!_initialized || _playing || muted) {
-      return;
+class SoundState extends State<Sound> {
+  Soundpool _pool;
+
+  Map<String, int> _soundIds;
+
+  bool mute = false;
+
+  void _play(String name) {
+    final soundId = _soundIds[name];
+    if (soundId != null && !mute) {
+      _pool.play(soundId);
     }
-    _playing = true;
-    final player = _audioPlayer.fixedPlayer;
-    await player.seek(start);
-    await player.resume();
-    await Future.delayed(length);
-    player.pause();
-    _playing = false;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _pool = Soundpool(streamType: StreamType.music);
+    _soundIds = Map();
+    for (var value in _SOUNDS) {
+      scheduleMicrotask(() async {
+        final data = await rootBundle.load('assets/audios/$value');
+        _soundIds[value] = await _pool.load(data);
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _pool.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return widget.child;
   }
 
   void start() {
-    _play(
-        const Duration(milliseconds: 3720), const Duration(milliseconds: 3622));
+    _play('start.mp3');
   }
 
   void clear() {
-    _play(const Duration(milliseconds: 0), const Duration(milliseconds: 767));
+    _play('clean.mp3');
   }
 
   void fall() {
-    _play(
-        const Duration(milliseconds: 1255), const Duration(milliseconds: 354));
-  }
-
-  void gameOver() {
-    _play(
-        const Duration(milliseconds: 8127), const Duration(milliseconds: 1143));
+    _play('drop.mp3');
   }
 
   void rotate() {
-    _play(const Duration(milliseconds: 2247), const Duration(milliseconds: 80));
+    _play('rotate.mp3');
   }
 
   void move() {
-    _play(
-        const Duration(milliseconds: 2908), const Duration(milliseconds: 143));
+    _play('move.mp3');
   }
 }

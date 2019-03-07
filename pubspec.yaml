@@ -18,7 +18,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   overlay_support: ^0.0.4
-  audioplayers: ^0.8.0
+  soundpool: ^0.4.1
 
 dev_dependencies:
   flutter_test:
@@ -34,7 +34,7 @@ flutter:
 
   assets:
   - assets/material.png
-  - assets/music.mp3
+  - assets/audios/
   - assets/alipay.jpg
   - assets/wechat.png
 
