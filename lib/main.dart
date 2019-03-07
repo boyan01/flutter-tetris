@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:tetris/gamer/gamer.dart';
 import 'package:tetris/generated/i18n.dart';
+import 'package:tetris/material/audios.dart';
 import 'package:tetris/panel/page_portrait.dart';
 
 void main() {
@@ -41,7 +42,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: Scaffold(
-        body: Game(child: _HomePage()),
+        body: Sound(child: Game(child: _HomePage())),
       ),
     );
   }

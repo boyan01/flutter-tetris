@@ -1,67 +1,88 @@
-import 'dart:io';
+import 'dart:async';
 
-import 'package:audioplayers/audio_cache.dart';
-import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:soundpool/soundpool.dart';
 
-Sounds sounds = Sounds._();
+class Sound extends StatefulWidget {
+  final Widget child;
 
-class Sounds {
-  //the media file in application dir
-  File _file;
+  const Sound({Key key, this.child}) : super(key: key);
 
-  bool muted = false;
+  @override
+  SoundState createState() => SoundState();
 
-  Sounds._() {
-    _init();
+  static SoundState of(BuildContext context) {
+    final state = context.ancestorStateOfType(const TypeMatcher<SoundState>());
+    assert(state != null, 'can not find Sound widget');
+    return state;
   }
+}
 
-  void _init() async {
-    final audio = AudioCache();
-    audio.load('music.mp3').then((file) {
-      _file = file;
-      debugPrint('file loaded : ${file.path}');
-    }).catchError((e) {
-      debugPrint('load music.mp3 failed : $e');
-    });
-  }
+const _SOUNDS = [
+  'clean.mp3',
+  'drop.mp3',
+  'explosion.mp3',
+  'move.mp3',
+  'rotate.mp3',
+  'start.mp3'
+];
 
-  void _play(Duration start, Duration length) async {
-    if (_file == null || muted) {
-      return;
+class SoundState extends State<Sound> {
+  Soundpool _pool;
+
+  Map<String, int> _soundIds;
+
+  bool mute = false;
+
+  void _play(String name) {
+    final soundId = _soundIds[name];
+    if (soundId != null && !mute) {
+      _pool.play(soundId);
     }
-    final player = AudioPlayer();
-    await player.play(_file.path, isLocal: true, position: start);
-    await Future.delayed(length);
-    await player.stop();
-    player.release();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _pool = Soundpool(streamType: StreamType.music);
+    _soundIds = Map();
+    for (var value in _SOUNDS) {
+      scheduleMicrotask(() async {
+        final data = await rootBundle.load('assets/audios/$value');
+        _soundIds[value] = await _pool.load(data);
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _pool.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return widget.child;
   }
 
   void start() {
-    _play(
-        const Duration(milliseconds: 3720), const Duration(milliseconds: 3622));
+    _play('start.mp3');
   }
 
   void clear() {
-    _play(const Duration(milliseconds: 0), const Duration(milliseconds: 767));
+    _play('clean.mp3');
   }
 
   void fall() {
-    _play(
-        const Duration(milliseconds: 1255), const Duration(milliseconds: 354));
-  }
-
-  void gameOver() {
-    _play(
-        const Duration(milliseconds: 8127), const Duration(milliseconds: 1143));
+    _play('drop.mp3');
   }
 
   void rotate() {
-    _play(const Duration(milliseconds: 2247), const Duration(milliseconds: 80));
+    _play('rotate.mp3');
   }
 
   void move() {
-    _play(
-        const Duration(milliseconds: 2908), const Duration(milliseconds: 143));
+    _play('move.mp3');
   }
 }

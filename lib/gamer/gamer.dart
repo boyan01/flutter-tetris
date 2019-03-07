@@ -131,12 +131,14 @@ class GameControl extends State<Game> with RouteAware {
     return next;
   }
 
+  SoundState get _sound => Sound.of(context);
+
   void rotate() {
     if (_states == GameStates.running && _current != null) {
       final next = _current.rotate();
       if (next.isValidInMatrix(_data)) {
         _current = next;
-        sounds.rotate();
+        _sound.rotate();
       }
     }
     setState(() {});
@@ -149,7 +151,7 @@ class GameControl extends State<Game> with RouteAware {
       final next = _current.right();
       if (next.isValidInMatrix(_data)) {
         _current = next;
-        sounds.move();
+        _sound.move();
       }
     }
     setState(() {});
@@ -162,7 +164,7 @@ class GameControl extends State<Game> with RouteAware {
       final next = _current.left();
       if (next.isValidInMatrix(_data)) {
         _current = next;
-        sounds.move();
+        _sound.move();
       }
     }
     setState(() {});
@@ -177,7 +179,7 @@ class GameControl extends State<Game> with RouteAware {
           _states = GameStates.drop;
           setState(() {});
           await Future.delayed(const Duration(milliseconds: 100));
-          _mixCurrentIntoData(mixSound: sounds.fall);
+          _mixCurrentIntoData(mixSound: _sound.fall);
           break;
         }
       }
@@ -193,7 +195,7 @@ class GameControl extends State<Game> with RouteAware {
       if (next.isValidInMatrix(_data)) {
         _current = next;
         if (enableSounds) {
-          sounds.move();
+          _sound.move();
         }
       } else {
         _mixCurrentIntoData();
@@ -225,7 +227,7 @@ class GameControl extends State<Game> with RouteAware {
     if (clearLines.isNotEmpty) {
       setState(() => _states = GameStates.clear);
 
-      sounds.clear();
+      _sound.clear();
 
       ///消除效果动画
       for (int count = 0; count < 5; count++) {
@@ -325,7 +327,7 @@ class GameControl extends State<Game> with RouteAware {
     if (_states == GameStates.reset) {
       return;
     }
-    sounds.start();
+    _sound.start();
     _states = GameStates.reset;
     () async {
       int line = GAME_PAD_MATRIX_H;
@@ -383,13 +385,13 @@ class GameControl extends State<Game> with RouteAware {
     }
     debugPrint("game states : $_states");
     return GameState(
-        mixed, _states, _level, sounds.muted, _points, _cleared, _next,
+        mixed, _states, _level, _sound.mute, _points, _cleared, _next,
         child: widget.child);
   }
 
   void soundSwitch() {
     setState(() {
-      sounds.muted = !sounds.muted;
+      _sound.mute = !_sound.mute;
     });
   }
 }
