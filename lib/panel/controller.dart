@@ -44,12 +44,14 @@ class DirectionController extends StatelessWidget {
                 _Button(
                     enableLongPress: false,
                     size: _DIRECTION_BUTTON_SIZE,
+                    typeOfButton: ButtonType.RotateRight,
                     onTap: () {
                       Game.of(context).rotate();
                     }),
                 SizedBox(width: _DIRECTION_SPACE),
                 _Button(
                     size: _DIRECTION_BUTTON_SIZE,
+                    typeOfButton: ButtonType.MoveRight,
                     onTap: () {
                       Game.of(context).right();
                     }),
@@ -61,12 +63,14 @@ class DirectionController extends StatelessWidget {
               children: <Widget>[
                 _Button(
                     size: _DIRECTION_BUTTON_SIZE,
+                    typeOfButton: ButtonType.MoveLeft,
                     onTap: () {
                       Game.of(context).left();
                     }),
                 SizedBox(width: _DIRECTION_SPACE),
                 _Button(
                   size: _DIRECTION_BUTTON_SIZE,
+                  typeOfButton: ButtonType.Down,
                   onTap: () {
                     Game.of(context).down();
                   },
@@ -118,6 +122,7 @@ class DropButton extends StatelessWidget {
     return _Button(
         enableLongPress: false,
         size: Size(90, 90),
+        typeOfButton: ButtonType.Drop,
         onTap: () {
           Game.of(context).drop();
         });
@@ -176,8 +181,11 @@ class _SystemButton extends StatelessWidget {
   }
 }
 
+enum ButtonType { MoveLeft, RotateRight, MoveRight, Down, Drop }
+
 class _Button extends StatefulWidget {
   final Size size;
+  final ButtonType typeOfButton;
 
   final VoidCallback onTap;
 
@@ -190,6 +198,7 @@ class _Button extends StatefulWidget {
       {Key key,
       @required this.size,
       @required this.onTap,
+      @required this.typeOfButton,
       this.color = Colors.blue,
       this.enableLongPress = true})
       : super(key: key);
@@ -268,7 +277,20 @@ class _ButtonState extends State<_Button> {
             _color = widget.color;
           });
         },
-        child: SizedBox.fromSize(size: widget.size),
+        child: SizedBox.fromSize(
+          size: widget.size, 
+          child: widget.typeOfButton ==ButtonType.Drop ? 
+            Icon(Icons.file_download, color: Colors.white)              
+            : Transform.rotate(angle: - (math.pi/ 12.0) * 3,
+                child: Icon(
+                  widget.typeOfButton ==ButtonType.Down ? Icons.arrow_downward : 
+                    (widget.typeOfButton ==ButtonType.MoveLeft) ? Icons.chevron_left :
+                    (widget.typeOfButton ==ButtonType.MoveRight) ? Icons.chevron_right :
+                    (widget.typeOfButton ==ButtonType.RotateRight) ? Icons.rotate_right :
+                    Icons.not_interested
+                  , color: Colors.white),
+                ),
+          ),
       ),
     );
   }
