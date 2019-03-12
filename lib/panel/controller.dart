@@ -44,12 +44,14 @@ class DirectionController extends StatelessWidget {
                 _Button(
                     enableLongPress: false,
                     size: _DIRECTION_BUTTON_SIZE,
+                    buttonIcon: Icons.rotate_right,
                     onTap: () {
                       Game.of(context).rotate();
                     }),
                 SizedBox(width: _DIRECTION_SPACE),
                 _Button(
                     size: _DIRECTION_BUTTON_SIZE,
+                    buttonIcon: Icons.chevron_right,
                     onTap: () {
                       Game.of(context).right();
                     }),
@@ -61,12 +63,14 @@ class DirectionController extends StatelessWidget {
               children: <Widget>[
                 _Button(
                     size: _DIRECTION_BUTTON_SIZE,
+                    buttonIcon: Icons.chevron_left,
                     onTap: () {
                       Game.of(context).left();
                     }),
                 SizedBox(width: _DIRECTION_SPACE),
                 _Button(
                   size: _DIRECTION_BUTTON_SIZE,
+                  buttonIcon: Icons.keyboard_arrow_down,
                   onTap: () {
                     Game.of(context).down();
                   },
@@ -118,6 +122,7 @@ class DropButton extends StatelessWidget {
     return _Button(
         enableLongPress: false,
         size: Size(90, 90),
+        buttonIcon: Icons.file_download,
         onTap: () {
           Game.of(context).drop();
         });
@@ -178,6 +183,7 @@ class _SystemButton extends StatelessWidget {
 
 class _Button extends StatefulWidget {
   final Size size;
+  final IconData buttonIcon;
 
   final VoidCallback onTap;
 
@@ -190,6 +196,7 @@ class _Button extends StatefulWidget {
       {Key key,
       @required this.size,
       @required this.onTap,
+      @required this.buttonIcon,
       this.color = Colors.blue,
       this.enableLongPress = true})
       : super(key: key);
@@ -268,7 +275,14 @@ class _ButtonState extends State<_Button> {
             _color = widget.color;
           });
         },
-        child: SizedBox.fromSize(size: widget.size),
+        child: SizedBox.fromSize(
+          size: widget.size, 
+          child: Transform.rotate(angle: (widget.buttonIcon == Icons.file_download) ? 0 : - (math.pi/ 12.0) * 3,
+                child: Icon(
+                  widget.buttonIcon,                  
+                  color: Colors.white),
+                ),
+          ),
       ),
     );
   }
