@@ -45,6 +45,7 @@ class PageLand extends StatelessWidget {
                     ),
                     Spacer(),
                     DirectionController(),
+                    SizedBox(height: 30),
                   ],
                 ),
               ),
