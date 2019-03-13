@@ -34,7 +34,7 @@ class DirectionController extends StatelessWidget {
     return Stack(
       alignment: Alignment.center,
       children: <Widget>[
-        SizedBox.expand(),
+        SizedBox.fromSize(size: _DIRECTION_BUTTON_SIZE * 2.8),
         Transform.rotate(
           angle: math.pi / 4,
           child: Column(
