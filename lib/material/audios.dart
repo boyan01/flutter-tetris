@@ -45,7 +45,7 @@ class SoundState extends State<Sound> {
   @override
   void initState() {
     super.initState();
-    _pool = Soundpool(streamType: StreamType.music);
+    _pool = Soundpool(streamType: StreamType.music, maxStreams: 4);
     _soundIds = Map();
     for (var value in _SOUNDS) {
       scheduleMicrotask(() async {
