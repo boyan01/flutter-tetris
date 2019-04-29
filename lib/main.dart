@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:tetris/gamer/gamer.dart';
@@ -6,6 +7,7 @@ import 'package:tetris/material/audios.dart';
 import 'package:tetris/panel/page_portrait.dart';
 
 void main() {
+  debugDefaultTargetPlatformOverride = TargetPlatform.fuchsia;
   _disableDebugPrint();
   runApp(MyApp());
 }
