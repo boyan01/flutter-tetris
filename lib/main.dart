@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -5,6 +7,8 @@ import 'package:tetris/gamer/gamer.dart';
 import 'package:tetris/generated/i18n.dart';
 import 'package:tetris/material/audios.dart';
 import 'package:tetris/panel/page_portrait.dart';
+
+import 'gamer/keyboard.dart';
 
 void main() {
   debugDefaultTargetPlatformOverride = TargetPlatform.fuchsia;
@@ -44,7 +48,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: Scaffold(
-        body: Sound(child: Game(child: _HomePage())),
+        body: Sound(child: Game(child: KeyboardController(child: _HomePage()))),
       ),
     );
   }
@@ -57,8 +61,11 @@ const BACKGROUND_COLOR = const Color(0xffefcc19);
 class _HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MediaQuery.of(context).orientation == Orientation.landscape
-        ? PageLand()
-        : PagePortrait();
+    //only Android/iOS support land mode
+    bool supportLandMode = Platform.isAndroid || Platform.isIOS;
+    bool land = supportLandMode &&
+        MediaQuery.of(context).orientation == Orientation.landscape;
+
+    return land ? PageLand() : PagePortrait();
   }
 }
