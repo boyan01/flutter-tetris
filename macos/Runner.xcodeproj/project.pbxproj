@@ -14,7 +14,6 @@
 				33CC111E2044C6BF0003C045 /* ShellScript */,
 			);
 			dependencies = (
-				33D1A0EC22148486006C7A3E /* PBXTargetDependency */,
 			);
 			name = "Build Flutter Bundle";
 			productName = FLX;
@@ -60,7 +59,7 @@
 		33A2DE632267798600914F77 /* PluginRegistrant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PluginRegistrant.h; sourceTree = "<group>"; };
 		33A2DE642267798600914F77 /* PluginRegistrant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PluginRegistrant.m; sourceTree = "<group>"; };
 		33BA886B226E7BE8003329D5 /* Generated.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Generated.xcconfig; path = Flutter/Generated.xcconfig; sourceTree = "<group>"; };
-		33CC10ED2044A3C60003C045 /* Flutter Desktop Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Flutter Desktop Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		33CC10ED2044A3C60003C045 /* Tetris.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tetris.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		33CC10F02044A3C60003C045 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		33CC10F22044A3C60003C045 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		33CC10F52044A3C60003C045 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
@@ -113,7 +112,7 @@
 		33CC10EE2044A3C60003C045 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				33CC10ED2044A3C60003C045 /* Flutter Desktop Example.app */,
+				33CC10ED2044A3C60003C045 /* Tetris.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -152,12 +151,11 @@
 			buildRules = (
 			);
 			dependencies = (
-				33D1A0EA2214847F006C7A3E /* PBXTargetDependency */,
 				33CC11202044C79F0003C045 /* PBXTargetDependency */,
 			);
 			name = Runner;
-			productName = "Flutter Desktop Example";
-			productReference = 33CC10ED2044A3C60003C045 /* Flutter Desktop Example.app */;
+			productName = "Tetris";
+			productReference = 33CC10ED2044A3C60003C045 /* Tetris.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -385,8 +383,8 @@
 				FRAMEWORK_SEARCH_PATHS = $SYMROOT/flutter_framework;
 				INFOPLIST_FILE = Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.google.FlutterEmbedderMacExample.FlutterDesktopExample;
-				PRODUCT_NAME = "Flutter Desktop Example";
+				PRODUCT_BUNDLE_IDENTIFIER = tech.soit.tetris.mac;
+				PRODUCT_NAME = Tetris;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -405,8 +403,9 @@
 				FRAMEWORK_SEARCH_PATHS = $SYMROOT/flutter_framework;
 				INFOPLIST_FILE = Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.google.FlutterEmbedderMacExample.FlutterDesktopExample;
-				PRODUCT_NAME = "Flutter Desktop Example";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = tech.soit.tetris.mac;
+				PRODUCT_NAME = Tetris;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
@@ -422,22 +421,6 @@
 			name = Debug;
 		};
 		33CC111D2044C6BA0003C045 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Release;
-		};
-		33D1A0E622148440006C7A3E /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Debug;
-		};
-		33D1A0E722148440006C7A3E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
@@ -471,15 +454,6 @@
 			buildConfigurations = (
 				33CC111C2044C6BA0003C045 /* Debug */,
 				33CC111D2044C6BA0003C045 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		33D1A0E522148440006C7A3E /* Build configuration list for PBXAggregateTarget "Copy Flutter Framework" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				33D1A0E622148440006C7A3E /* Debug */,
-				33D1A0E722148440006C7A3E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
