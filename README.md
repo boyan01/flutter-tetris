@@ -19,7 +19,7 @@ Please view [README_EN](https://github.com/boyan01/flutter-tetris/blob/master/RE
 
   在命令行输入：`flutter run --profile`
 
-* 前往[Release](https://github.com/boyan01/flutter-tetris/releases) 下载 Apk 包 （仅限Android）
+* 前往[Release](https://github.com/boyan01/flutter-tetris/releases) 下载 Apk/macOS/Windows 可执行文件。
 
 ## 效果预览
 
