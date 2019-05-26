@@ -14,19 +14,21 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{5A827760-CF8B-408A-99A3-B6C0AD2271E7}</ProjectGuid>
     <RootNamespace>GLFWExample</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset Condition="'$(VisualStudioVersion)' == '15.0'">v141</PlatformToolset>
+    <PlatformToolset Condition="'$(VisualStudioVersion)' == '16.0'">v142</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset Condition="'$(VisualStudioVersion)' == '15.0'">v141</PlatformToolset>
+    <PlatformToolset Condition="'$(VisualStudioVersion)' == '16.0'">v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
@@ -37,26 +39,26 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="Generated.props" />
+    <Import Project="flutter\Generated.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="Generated.props" />
+    <Import Project="flutter\Generated.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(ProjectDir)..\build\windows\$(Platform)\$(Configuration)\$(ProjectName)\</OutDir>
     <IntDir>$(ProjectDir)..\build\windows\intermediates\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
-    <IncludePath>$(IntDir)flutter_library\;$(IntDir)flutter_library\cpp_client_wrapper\include\;$(IncludePath)</IncludePath>
-    <LibraryPath>$(IntDir)flutter_library;$(LibraryPath)</LibraryPath>
-    <TargetName>Flutter Desktop Example</TargetName>
+    <IncludePath>$(ProjectDir)flutter\;$(ProjectDir)flutter\cpp_client_wrapper\include\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)flutter;$(LibraryPath)</LibraryPath>
+    <TargetName>Tetris</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(ProjectDir)..\build\windows\$(Platform)\$(Configuration)\$(ProjectName)\</OutDir>
     <IntDir>$(ProjectDir)..\build\windows\intermediates\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
-    <IncludePath>$(IntDir)flutter_library\;$(IntDir)flutter_library\cpp_client_wrapper\include\;$(IncludePath)</IncludePath>
-    <LibraryPath>$(IntDir)flutter_library;$(LibraryPath)</LibraryPath>
-    <TargetName>Flutter Desktop Example</TargetName>
+    <IncludePath>$(ProjectDir)flutter\;$(ProjectDir)flutter\cpp_client_wrapper\include\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)flutter;$(LibraryPath)</LibraryPath>
+    <TargetName>Tetris</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -72,7 +74,7 @@
       <AdditionalDependencies>flutter_windows.dll.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
-      <Command>$(ProjectDir)scripts\prepare_dependencies "$(IntDir)"</Command>
+      <Command>$(ProjectDir)scripts\prepare_dependencies debug</Command>
       <Message>Sync and build dependencies</Message>
     </PreBuildEvent>
     <PreLinkEvent>
@@ -90,7 +92,7 @@
       </Message>
     </PostBuildEvent>
     <CustomBuildStep>
-      <Command>$(ProjectDir)scripts\bundle_assets_and_deps "$(IntDir)flutter_library\" "$(OutputPath)"</Command>
+      <Command>$(ProjectDir)scripts\bundle_assets_and_deps "$(ProjectDir)flutter\" "$(OutputPath)" "$(TargetFileName)"</Command>
     </CustomBuildStep>
     <CustomBuildStep>
       <Message>Bundling dependencies</Message>
@@ -117,7 +119,7 @@
       <AdditionalDependencies>flutter_windows.dll.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
-      <Command>$(ProjectDir)scripts\prepare_dependencies "$(IntDir)"</Command>
+      <Command>$(ProjectDir)scripts\prepare_dependencies release</Command>
       <Message>Sync and build dependencies</Message>
     </PreBuildEvent>
     <PreLinkEvent>
@@ -135,7 +137,7 @@
       </Message>
     </PostBuildEvent>
     <CustomBuildStep>
-      <Command>$(ProjectDir)scripts\bundle_assets_and_deps "$(IntDir)flutter_library\" "$(OutputPath)"</Command>
+      <Command>$(ProjectDir)scripts\bundle_assets_and_deps "$(ProjectDir)flutter\" "$(OutputPath)" "$(TargetFileName)"</Command>
     </CustomBuildStep>
     <CustomBuildStep>
       <Message>Bundling dependencies</Message>
@@ -145,9 +147,9 @@
     </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="$(IntDir)flutter_library\cpp_client_wrapper\engine_method_result.cc" />
-    <ClCompile Include="$(IntDir)flutter_library\cpp_client_wrapper\flutter_window_controller.cc" />
-    <ClCompile Include="$(IntDir)flutter_library\cpp_client_wrapper\plugin_registrar.cc" />
+    <ClCompile Include="$(ProjectDir)flutter\cpp_client_wrapper\engine_method_result.cc" />
+    <ClCompile Include="$(ProjectDir)flutter\cpp_client_wrapper\flutter_window_controller.cc" />
+    <ClCompile Include="$(ProjectDir)flutter\cpp_client_wrapper\plugin_registrar.cc" />
     <ClCompile Include="flutter_embedder_example.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
