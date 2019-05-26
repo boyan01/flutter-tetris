@@ -7,7 +7,7 @@ Please view [README_EN](https://github.com/boyan01/flutter-tetris/blob/master/RE
 
 ---
 
-使用Flutter开发的俄罗斯方块游戏。
+使用Flutter开发的俄罗斯方块游戏。支持 **Android**, **iOS**, **Windows**, **mac**, **Linux** 以及 **web**.
 
 参考来源于 [vue-tetris](https://github.com/Binaryify/vue-tetris) 。
 
@@ -20,6 +20,8 @@ Please view [README_EN](https://github.com/boyan01/flutter-tetris/blob/master/RE
   在命令行输入：`flutter run --profile`
 
 * 前往[Release](https://github.com/boyan01/flutter-tetris/releases) 下载 Apk/macOS/Windows 可执行文件。
+
+* 或者前往 [https://boyan01.github.io/flutter-tetris](https://boyan01.github.io/flutter-tetris/#/) 体验 Web 版本
 
 ## 效果预览
 
