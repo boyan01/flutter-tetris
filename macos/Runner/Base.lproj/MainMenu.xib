@@ -13,19 +13,20 @@
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
-        <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="Tetrix" customModuleProvider="target">
+        <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="Runner" customModuleProvider="target">
             <connections>
-                <outlet property="window" destination="QvC-M9-y7g" id="gIp-Ho-8D9"/>
+                <outlet property="applicationMenu" destination="uQy-DD-JDr" id="XBo-yE-nKs"/>
+                <outlet property="mainFlutterWindow" destination="QvC-M9-y7g" id="gIp-Ho-8D9"/>
             </connections>
         </customObject>
         <customObject id="YLy-65-1bz" customClass="NSFontManager"/>
         <menu title="Main Menu" systemMenu="main" id="AYu-sK-qS6">
             <items>
-                <menuItem title="Tetris" id="1Xt-HY-uBw">
+                <menuItem title="APP_NAME" id="1Xt-HY-uBw">
                     <modifierMask key="keyEquivalentModifierMask"/>
-                    <menu key="submenu" title="Tetris" systemMenu="apple" id="uQy-DD-JDr">
+                    <menu key="submenu" title="APP_NAME" systemMenu="apple" id="uQy-DD-JDr">
                         <items>
-                            <menuItem title="About Tetris" id="5kV-Vb-QxS">
+                            <menuItem title="About APP_NAME" id="5kV-Vb-QxS">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
                                     <action selector="orderFrontStandardAboutPanel:" target="-1" id="Exp-CZ-Vem"/>
@@ -39,7 +40,7 @@
                                 <menu key="submenu" title="Services" systemMenu="services" id="hz9-B4-Xy5"/>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="4je-JR-u6R"/>
-                            <menuItem title="Hide Tetris" keyEquivalent="h" id="Olw-nP-bQN">
+                            <menuItem title="Hide APP_NAME" keyEquivalent="h" id="Olw-nP-bQN">
                                 <connections>
                                     <action selector="hide:" target="-1" id="PnN-Uc-m68"/>
                                 </connections>
@@ -57,7 +58,7 @@
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="kCx-OE-vgT"/>
-                            <menuItem title="Quit Tetris" keyEquivalent="q" id="4sb-4s-VLi">
+                            <menuItem title="Quit APP_NAME" keyEquivalent="q" id="4sb-4s-VLi">
                                 <connections>
                                     <action selector="terminate:" target="-1" id="Te7-pn-YzF"/>
                                 </connections>
@@ -323,38 +324,16 @@
                     </menu>
                 </menuItem>
             </items>
+            <point key="canvasLocation" x="142" y="-258"/>
         </menu>
-        <window title="Tetris" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="QvC-M9-y7g" customClass="ExampleWindow" customModule="Tetrix" customModuleProvider="target">
+        <window title="APP_NAME" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="QvC-M9-y7g" customClass="MainFlutterWindow" customModule="Runner" customModuleProvider="target">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
-            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="335" y="390" width="480" height="360"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1280" height="777"/>
+            <rect key="contentRect" x="335" y="390" width="800" height="600"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1577"/>
             <view key="contentView" wantsLayer="YES" id="EiT-Mj-1SZ">
-                <rect key="frame" x="0.0" y="0.0" width="480" height="360"/>
+                <rect key="frame" x="0.0" y="0.0" width="800" height="600"/>
                 <autoresizingMask key="autoresizingMask"/>
-                <subviews>
-                    <openGLView wantsLayer="YES" colorSize="5bit_RGB_8bit_Alpha" useAuxiliaryDepthBufferStencil="NO" useDoubleBufferingEnabled="YES" allowOffline="YES" wantsBestResolutionOpenGLSurface="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gEc-a8-YO4" userLabel="Flutter View" customClass="FLEView">
-                        <rect key="frame" x="0.0" y="0.0" width="480" height="360"/>
-                        <connections>
-                            <outlet property="reshapeListener" destination="G1H-AI-kys" id="1cc-4d-RFE"/>
-                        </connections>
-                    </openGLView>
-                </subviews>
-                <constraints>
-                    <constraint firstAttribute="trailing" secondItem="gEc-a8-YO4" secondAttribute="trailing" id="48l-99-Yo3"/>
-                    <constraint firstItem="gEc-a8-YO4" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" id="Hnt-3S-GUm"/>
-                    <constraint firstItem="gEc-a8-YO4" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" id="Zcl-HH-aUv"/>
-                    <constraint firstAttribute="bottom" secondItem="gEc-a8-YO4" secondAttribute="bottom" id="mOL-Lq-el9"/>
-                </constraints>
             </view>
-            <connections>
-                <outlet property="flutterViewController" destination="G1H-AI-kys" id="Icn-Jl-i3i"/>
-            </connections>
         </window>
-        <viewController id="G1H-AI-kys" userLabel="Flutter View Controller" customClass="FLEViewController">
-            <connections>
-                <outlet property="view" destination="gEc-a8-YO4" id="5gV-MI-Qu1"/>
-            </connections>
-        </viewController>
     </objects>
 </document>
