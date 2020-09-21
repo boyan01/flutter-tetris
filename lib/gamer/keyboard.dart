@@ -25,24 +25,24 @@ class _KeyboardControllerState extends State<KeyboardController> {
       return;
     }
 
-    final key = event.data.physicalKey;
+    final key = event.data.logicalKey;
     final game = Game.of(context);
 
-    if (key == PhysicalKeyboardKey.arrowUp) {
+    if (key == LogicalKeyboardKey.arrowUp) {
       game.rotate();
-    } else if (key == PhysicalKeyboardKey.arrowDown) {
+    } else if (key == LogicalKeyboardKey.arrowDown) {
       game.down();
-    } else if (key == PhysicalKeyboardKey.arrowLeft) {
+    } else if (key == LogicalKeyboardKey.arrowLeft) {
       game.left();
-    } else if (key == PhysicalKeyboardKey.arrowRight) {
+    } else if (key == LogicalKeyboardKey.arrowRight) {
       game.right();
-    } else if (key == PhysicalKeyboardKey.space) {
+    } else if (key == LogicalKeyboardKey.space) {
       game.drop();
-    } else if (key == PhysicalKeyboardKey.keyP) {
+    } else if (key == LogicalKeyboardKey.keyP) {
       game.pauseOrResume();
-    } else if (key == PhysicalKeyboardKey.keyS) {
+    } else if (key == LogicalKeyboardKey.keyS) {
       game.soundSwitch();
-    } else if (key == PhysicalKeyboardKey.keyR) {
+    } else if (key == LogicalKeyboardKey.keyR) {
       game.reset();
     }
   }

@@ -40,6 +40,11 @@ class PageLand extends StatelessWidget {
                                   context: context,
                                   builder: (context) => DonationDialog());
                             },
+                            onHighlightChanged: (pressed) {
+                              if(!pressed) {
+                                FocusScope.of(context).requestFocus(new FocusNode());
+                              }
+                            },
                             child: Text(S.of(context).reward))
                       ],
                     ),
