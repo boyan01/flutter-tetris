@@ -30,7 +30,7 @@ class PagePortrait extends StatelessWidget {
                             builder: (context) => DonationDialog());
                       },
                       onHighlightChanged: (pressed) {
-                        if(!pressed) {
+                        if (!pressed) {
                           FocusScope.of(context).requestFocus(new FocusNode());
                         }
                       },
