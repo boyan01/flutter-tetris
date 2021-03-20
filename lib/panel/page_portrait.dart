@@ -21,16 +21,7 @@ class PagePortrait extends StatelessWidget {
           child: Column(
             children: <Widget>[
               Row(
-                children: <Widget>[
-                  Spacer(),
-                  TextButton(
-                      onPressed: () {
-                        showDialog(
-                            context: context,
-                            builder: (context) => DonationDialog());
-                      },
-                      child: Text(S.of(context).reward))
-                ],
+                children: <Widget>[Spacer(), RewardButton()],
               ),
               Spacer(),
               _ScreenDecoration(child: Screen(width: screenW)),
@@ -41,6 +32,31 @@ class PagePortrait extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class RewardButton extends StatefulWidget {
+  const RewardButton({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  _RewardButtonState createState() => _RewardButtonState();
+}
+
+class _RewardButtonState extends State<RewardButton> {
+  final FocusNode _rewardFocusNode =
+      FocusNode(canRequestFocus: false, skipTraversal: true);
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+        focusNode: _rewardFocusNode,
+        autofocus: false,
+        onPressed: () {
+          showDialog(context: context, builder: (context) => DonationDialog());
+        },
+        child: Text(S.of(context).reward));
   }
 }
 

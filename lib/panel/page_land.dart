@@ -34,13 +34,7 @@ class PageLand extends StatelessWidget {
                     Row(
                       children: <Widget>[
                         Spacer(),
-                        TextButton(
-                            onPressed: () {
-                              showDialog(
-                                  context: context,
-                                  builder: (context) => DonationDialog());
-                            },
-                            child: Text(S.of(context).reward))
+                        RewardButton(),
                       ],
                     ),
                     Spacer(),
