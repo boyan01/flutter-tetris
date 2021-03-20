@@ -13,7 +13,7 @@ class Sound extends StatefulWidget {
   SoundState createState() => SoundState();
 
   static SoundState of(BuildContext context) {
-    final state = context.ancestorStateOfType(const TypeMatcher<SoundState>());
+    final state = context.findAncestorStateOfType<SoundState>();
     assert(state != null, 'can not find Sound widget');
     return state;
   }

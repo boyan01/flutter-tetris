@@ -52,7 +52,7 @@ class Game extends StatefulWidget {
   }
 
   static GameControl of(BuildContext context) {
-    final state = context.ancestorStateOfType(TypeMatcher<GameControl>());
+    final state = context.findAncestorStateOfType<GameControl>();
     assert(state != null, "must wrap this context with [Game]");
     return state;
   }
@@ -423,7 +423,7 @@ class GameState extends InheritedWidget {
   final Block next;
 
   static GameState of(BuildContext context) {
-    return (context.inheritFromWidgetOfExactType(GameState) as GameState);
+    return context.dependOnInheritedWidgetOfExactType<GameState>();
   }
 
   @override

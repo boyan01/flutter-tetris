@@ -34,17 +34,11 @@ class PageLand extends StatelessWidget {
                     Row(
                       children: <Widget>[
                         Spacer(),
-                        FlatButton(
+                        TextButton(
                             onPressed: () {
                               showDialog(
                                   context: context,
                                   builder: (context) => DonationDialog());
-                            },
-                            onHighlightChanged: (pressed) {
-                              if (!pressed) {
-                                FocusScope.of(context)
-                                    .requestFocus(new FocusNode());
-                              }
                             },
                             child: Text(S.of(context).reward))
                       ],

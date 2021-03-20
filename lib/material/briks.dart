@@ -17,7 +17,7 @@ class BrikSize extends InheritedWidget {
   final Size size;
 
   static BrikSize of(BuildContext context) {
-    final brikSize = context.inheritFromWidgetOfExactType(BrikSize) as BrikSize;
+    final brikSize = context.dependOnInheritedWidgetOfExactType<BrikSize>();
     assert(brikSize != null, "....");
     return brikSize;
   }

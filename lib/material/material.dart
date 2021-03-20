@@ -13,7 +13,7 @@ class GameMaterial extends StatefulWidget {
 
   static ui.Image getMaterial(BuildContext context) {
     final _GameMaterialState state =
-        context.ancestorStateOfType(const TypeMatcher<_GameMaterialState>());
+        context.findAncestorStateOfType<_GameMaterialState>();
     assert(state != null, "can not find GameMaterial widget");
     return state.material;
   }
