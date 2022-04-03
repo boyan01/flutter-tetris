@@ -3,27 +3,31 @@ const MANIFEST = 'flutter-app-manifest';
 const TEMP = 'flutter-temp-cache';
 const CACHE_NAME = 'flutter-app-cache';
 const RESOURCES = {
-  "assets/AssetManifest.json": "f80f2b5d07ff073c1c2f89bc0978e195",
-"assets/assets/alipay.jpg": "2b9c6010ae04652649b978fe7a8d35c4",
-"assets/assets/audios/clean.mp3": "ac70daf98741de473dec0eacdac333e8",
-"assets/assets/audios/drop.mp3": "154540aeac037695ec1d80adfdff8936",
-"assets/assets/audios/explosion.mp3": "2c8b5dd3f51298bbeb019ce1316aa6b9",
-"assets/assets/audios/move.mp3": "389fd99cd348d712668fa34fd9738753",
-"assets/assets/audios/rotate.mp3": "23789f16afc6b9cd22711ffde1baa57f",
-"assets/assets/audios/start.mp3": "a5ca4c3bbeeb2d74b90ec1554a55cb1b",
-"assets/assets/material.png": "6daf304356cc010c1d23585c44041143",
+  "assets/assets/material.png": "6daf304356cc010c1d23585c44041143",
 "assets/assets/wechat.png": "199febd121794aabdee55fb9d0aeec92",
+"assets/assets/audios/rotate.mp3": "23789f16afc6b9cd22711ffde1baa57f",
+"assets/assets/audios/drop.mp3": "154540aeac037695ec1d80adfdff8936",
+"assets/assets/audios/clean.mp3": "ac70daf98741de473dec0eacdac333e8",
+"assets/assets/audios/move.mp3": "389fd99cd348d712668fa34fd9738753",
+"assets/assets/audios/explosion.mp3": "2c8b5dd3f51298bbeb019ce1316aa6b9",
+"assets/assets/audios/start.mp3": "a5ca4c3bbeeb2d74b90ec1554a55cb1b",
+"assets/assets/alipay.jpg": "2b9c6010ae04652649b978fe7a8d35c4",
 "assets/FontManifest.json": "7b2a36307916a9721811788013e65289",
-"assets/fonts/MaterialIcons-Regular.otf": "1288c9e28052e028aba623321f7826ac",
-"assets/NOTICES": "6979e0d32a1780647d9ce5dd875f1a33",
-"favicon.png": "5dcef449791fa27946b3d35ad8803796",
-"icons/Icon-192.png": "ac9a721a12bbc803b44f645561ecb1e1",
+"assets/AssetManifest.json": "f80f2b5d07ff073c1c2f89bc0978e195",
+"assets/NOTICES": "33d84e2822e619fda91d6dbbb74ac8a3",
+"assets/fonts/MaterialIcons-Regular.otf": "7e7a6cccddf6d7b20012a548461d5d81",
+"index.html": "507e2ba4e79bcea73b0f3b1b4f6259a9",
+"/": "507e2ba4e79bcea73b0f3b1b4f6259a9",
+"version.json": "78cebecb63d6f3ab8e67ea395bca18d7",
 "icons/Icon-512.png": "96e752610906ba2a93c65f8abe1645f1",
-"index.html": "38bf46554c9c911f4b4a6e846557c074",
-"/": "38bf46554c9c911f4b4a6e846557c074",
-"main.dart.js": "0efe0284aa835ecde4d1c5eb3a56b3b7",
+"icons/Icon-192.png": "ac9a721a12bbc803b44f645561ecb1e1",
+"main.dart.js": "960713091bf5046919593ecb373ce833",
+"favicon.png": "5dcef449791fa27946b3d35ad8803796",
 "manifest.json": "4565ba4f18453d825c0e57b6ea02a9e1",
-"version.json": "247c48668e76b71097cfe8e9413fb839"
+"canvaskit/profiling/canvaskit.js": "ae2949af4efc61d28a4a80fffa1db900",
+"canvaskit/profiling/canvaskit.wasm": "95e736ab31147d1b2c7b25f11d4c32cd",
+"canvaskit/canvaskit.js": "c2b4e5f3d7a3d82aed024e7249a78487",
+"canvaskit/canvaskit.wasm": "4b83d89d9fecbea8ca46f2f760c5a9ba"
 };
 
 // The application shell files that are downloaded before a service worker can
@@ -41,7 +45,7 @@ self.addEventListener("install", (event) => {
   return event.waitUntil(
     caches.open(TEMP).then((cache) => {
       return cache.addAll(
-        CORE.map((value) => new Request(value + '?revision=' + RESOURCES[value], {'cache': 'reload'})));
+        CORE.map((value) => new Request(value, {'cache': 'reload'})));
     })
   );
 });
