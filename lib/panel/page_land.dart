@@ -31,12 +31,6 @@ class PageLand extends StatelessWidget {
               Expanded(
                 child: Column(
                   children: <Widget>[
-                    Row(
-                      children: <Widget>[
-                        Spacer(),
-                        RewardButton(),
-                      ],
-                    ),
                     Spacer(),
                     DirectionController(),
                     SizedBox(height: 30),

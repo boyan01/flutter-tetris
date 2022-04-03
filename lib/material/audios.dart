@@ -7,7 +7,7 @@ import 'package:soundpool/soundpool.dart';
 class Sound extends StatefulWidget {
   final Widget child;
 
-  const Sound({Key key, this.child}) : super(key: key);
+  const Sound({Key? key, required this.child}) : super(key: key);
 
   @override
   SoundState createState() => SoundState();
@@ -15,7 +15,7 @@ class Sound extends StatefulWidget {
   static SoundState of(BuildContext context) {
     final state = context.findAncestorStateOfType<SoundState>();
     assert(state != null, 'can not find Sound widget');
-    return state;
+    return state!;
   }
 }
 
@@ -29,9 +29,9 @@ const _SOUNDS = [
 ];
 
 class SoundState extends State<Sound> {
-  Soundpool _pool;
+  late Soundpool _pool;
 
-  Map<String, int> _soundIds;
+  final _soundIds = Map<String, int>();
 
   bool mute = false;
 
@@ -45,8 +45,7 @@ class SoundState extends State<Sound> {
   @override
   void initState() {
     super.initState();
-    _pool = Soundpool(streamType: StreamType.music, maxStreams: 4);
-    _soundIds = Map();
+    _pool = Soundpool.fromOptions(options: SoundpoolOptions(maxStreams: 6));
     for (var value in _SOUNDS) {
       scheduleMicrotask(() async {
         final data = await rootBundle.load('assets/audios/$value');

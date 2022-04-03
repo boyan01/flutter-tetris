@@ -16,23 +16,23 @@ class Number extends StatelessWidget {
 
   final bool padWithZero;
 
-  Number(
-      {Key key,
-      this.length = 5,
-      @required this.number,
-      this.padWithZero = false})
-      : super(key: key);
+  Number({
+    Key? key,
+    this.length = 5,
+    required this.number,
+    this.padWithZero = false,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    String digitalStr = number?.toString() ?? "";
+    String digitalStr = number.toString();
     if (digitalStr.length > length) {
       digitalStr = digitalStr.substring(digitalStr.length - length);
     }
     digitalStr = digitalStr.padLeft(length, padWithZero ? "0" : " ");
     List<Widget> children = [];
     for (int i = 0; i < length; i++) {
-      children.add(Digital(int.tryParse(digitalStr[i])));
+      children.add(Digital(int.tryParse(digitalStr[i]) ?? 0));
     }
     return Row(
       mainAxisSize: MainAxisSize.min,
@@ -44,7 +44,7 @@ class Number extends StatelessWidget {
 class IconDragon extends StatefulWidget {
   final bool animate;
 
-  const IconDragon({Key key, this.animate = false}) : super(key: key);
+  const IconDragon({Key? key, this.animate = false}) : super(key: key);
 
   @override
   _IconDragonState createState() {
@@ -53,7 +53,7 @@ class IconDragon extends StatefulWidget {
 }
 
 class _IconDragonState extends State<IconDragon> {
-  Timer _timer;
+  Timer? _timer;
 
   @override
   void didUpdateWidget(IconDragon oldWidget) {
@@ -118,7 +118,8 @@ class IconPause extends StatelessWidget {
   final bool enable;
   final Size size;
 
-  const IconPause({Key key, this.enable = true, this.size = const Size(18, 16)})
+  const IconPause(
+      {Key? key, this.enable = true, this.size = const Size(18, 16)})
       : super(key: key);
 
   @override
@@ -135,7 +136,8 @@ class IconSound extends StatelessWidget {
   final bool enable;
   final Size size;
 
-  const IconSound({Key key, this.enable = true, this.size = const Size(18, 16)})
+  const IconSound(
+      {Key? key, this.enable = true, this.size = const Size(18, 16)})
       : super(key: key);
 
   @override
@@ -153,7 +155,8 @@ class IconColon extends StatelessWidget {
 
   final Size size;
 
-  const IconColon({Key key, this.enable = true, this.size = const Size(10, 17)})
+  const IconColon(
+      {Key? key, this.enable = true, this.size = const Size(10, 17)})
       : super(key: key);
 
   @override
@@ -174,8 +177,8 @@ class Digital extends StatelessWidget {
 
   final Size size;
 
-  Digital(this.digital, {Key key, this.size = const Size(10, 17)})
-      : assert(digital == null || (digital <= 9 && digital >= 0)),
+  Digital(this.digital, {Key? key, this.size = const Size(10, 17)})
+      : assert((digital <= 9 && digital >= 0)),
         super(key: key);
 
   @override
@@ -188,7 +191,7 @@ class Digital extends StatelessWidget {
   }
 
   Offset _getDigitalOffset() {
-    int offset = digital ?? 10;
+    int offset = digital;
     final dx = 75.0 + 14 * offset;
     return Offset(dx, 25);
   }
@@ -202,18 +205,21 @@ class _Material extends StatelessWidget {
 
   final Offset srcOffset;
 
-  const _Material(
-      {Key key,
-      @required this.size,
-      @required this.srcSize,
-      @required this.srcOffset})
-      : super(key: key);
+  const _Material({
+    Key? key,
+    required this.size,
+    required this.srcSize,
+    required this.srcOffset,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return CustomPaint(
       foregroundPainter: _MaterialPainter(
-          srcOffset, srcSize, GameMaterial.getMaterial(context)),
+        srcOffset,
+        srcSize,
+        GameMaterial.getMaterial(context),
+      ),
       child: SizedBox.fromSize(
         size: size,
       ),

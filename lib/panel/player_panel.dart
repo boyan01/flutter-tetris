@@ -14,8 +14,10 @@ class PlayerPanel extends StatelessWidget {
   //the size of player panel
   final Size size;
 
-  PlayerPanel({Key key, @required double width})
-      : assert(width != null && width != 0),
+  PlayerPanel({
+    Key? key,
+    required double width,
+  })  : assert(width != 0),
         size = Size(width, width * 2),
         super(key: key);
 
@@ -49,7 +51,9 @@ class _PlayerPad extends StatelessWidget {
           children: list.map((b) {
             return b == 1
                 ? const Brik.normal()
-                : b == 2 ? const Brik.highlight() : const Brik.empty();
+                : b == 2
+                    ? const Brik.highlight()
+                    : const Brik.empty();
           }).toList(),
         );
       }).toList(),

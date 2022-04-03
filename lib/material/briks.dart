@@ -8,18 +8,17 @@ const _COLOR_HIGHLIGHT = Color(0xFF560000);
 
 class BrikSize extends InheritedWidget {
   const BrikSize({
-    Key key,
-    @required this.size,
-    @required Widget child,
-  })  : assert(child != null),
-        super(key: key, child: child);
+    Key? key,
+    required this.size,
+    required Widget child,
+  }) : super(key: key, child: child);
 
   final Size size;
 
   static BrikSize of(BuildContext context) {
     final brikSize = context.dependOnInheritedWidgetOfExactType<BrikSize>();
     assert(brikSize != null, "....");
-    return brikSize;
+    return brikSize!;
   }
 
   @override
@@ -32,7 +31,7 @@ class BrikSize extends InheritedWidget {
 class Brik extends StatelessWidget {
   final Color color;
 
-  const Brik._({Key key, this.color}) : super(key: key);
+  const Brik._({Key? key, required this.color}) : super(key: key);
 
   const Brik.normal() : this._(color: _COLOR_NORMAL);
 
@@ -48,8 +47,8 @@ class Brik extends StatelessWidget {
       child: Container(
         margin: EdgeInsets.all(0.05 * width),
         padding: EdgeInsets.all(0.1 * width),
-        decoration:
-            BoxDecoration(border: Border.all(width: 0.10 * width, color: color)),
+        decoration: BoxDecoration(
+            border: Border.all(width: 0.10 * width, color: color)),
         child: Container(
           color: color,
         ),

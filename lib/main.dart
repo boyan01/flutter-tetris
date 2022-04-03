@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:tetris/gamer/gamer.dart';
-import 'package:tetris/generated/i18n.dart';
+import 'package:tetris/generated/l10n.dart';
 import 'package:tetris/material/audios.dart';
 import 'package:tetris/panel/page_portrait.dart';
 
@@ -21,7 +21,7 @@ void _disableDebugPrint() {
     return true;
   }());
   if (!debug) {
-    debugPrint = (String message, {int wrapWidth}) {
+    debugPrint = (message, {wrapWidth}) {
       //disable log print when not in debug mode
     };
   }
@@ -35,7 +35,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'tetris',
-      localizationsDelegates: [S.delegate, GlobalMaterialLocalizations.delegate, GlobalWidgetsLocalizations.delegate],
+      localizationsDelegates: [
+        S.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate
+      ],
       navigatorObservers: [routeObserver],
       supportedLocales: S.delegate.supportedLocales,
       theme: ThemeData(
