@@ -3,7 +3,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:tetris/gamer/gamer.dart';
-import 'package:tetris/generated/i18n.dart';
+import 'package:tetris/generated/l10n.dart';
 
 class GameController extends StatelessWidget {
   @override
@@ -216,7 +216,7 @@ class LeftController extends StatelessWidget {
 
 class _Button extends StatefulWidget {
   final Size size;
-  final Widget icon;
+  final Widget? icon;
 
   final VoidCallback onTap;
 
@@ -225,14 +225,14 @@ class _Button extends StatefulWidget {
 
   final bool enableLongPress;
 
-  const _Button(
-      {Key key,
-      @required this.size,
-      @required this.onTap,
-      this.icon,
-      this.color = Colors.blue,
-      this.enableLongPress = true})
-      : super(key: key);
+  const _Button({
+    Key? key,
+    required this.size,
+    required this.onTap,
+    this.icon,
+    this.color = Colors.blue,
+    this.enableLongPress = true,
+  }) : super(key: key);
 
   @override
   _ButtonState createState() {
@@ -249,12 +249,11 @@ class _Description extends StatelessWidget {
   final AxisDirection direction;
 
   const _Description({
-    Key key,
-    this.text,
+    Key? key,
+    required this.text,
     this.direction = AxisDirection.down,
-    this.child,
-  })  : assert(direction != null),
-        super(key: key);
+    required this.child,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -292,11 +291,11 @@ class _Description extends StatelessWidget {
 }
 
 class _ButtonState extends State<_Button> {
-  Timer _timer;
+  Timer? _timer;
 
   bool _tapEnded = false;
 
-  Color _color;
+  late Color _color;
 
   @override
   void didUpdateWidget(_Button oldWidget) {

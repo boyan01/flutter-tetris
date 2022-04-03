@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:tetris/gamer/block.dart';
 import 'package:tetris/gamer/gamer.dart';
-import 'package:tetris/generated/i18n.dart';
+import 'package:tetris/generated/l10n.dart';
 import 'package:tetris/material/briks.dart';
 import 'package:tetris/material/images.dart';
 
@@ -46,7 +46,7 @@ class _NextBlock extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<List<int>> data = [List.filled(4, 0), List.filled(4, 0)];
-    final next = BLOCK_SHAPES[GameState.of(context).next.type];
+    final next = BLOCK_SHAPES[GameState.of(context).next.type]!;
     for (int i = 0; i < next.length; i++) {
       for (int j = 0; j < next[i].length; j++) {
         data[i][j] = next[i][j];
@@ -72,13 +72,13 @@ class _GameStatus extends StatefulWidget {
 }
 
 class _GameStatusState extends State<_GameStatus> {
-  Timer _timer;
+  Timer? _timer;
 
   bool _colonEnable = true;
 
-  int _minute;
+  int _minute = 0;
 
-  int _hour;
+  int _hour = 0;
 
   @override
   void initState() {

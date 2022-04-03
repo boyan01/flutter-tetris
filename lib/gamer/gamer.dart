@@ -42,9 +42,7 @@ enum GameStates {
 class Game extends StatefulWidget {
   final Widget child;
 
-  const Game({Key key, @required this.child})
-      : assert(child != null),
-        super(key: key);
+  const Game({Key? key, required this.child}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -54,7 +52,7 @@ class Game extends StatefulWidget {
   static GameControl of(BuildContext context) {
     final state = context.findAncestorStateOfType<GameControl>();
     assert(state != null, "must wrap this context with [Game]");
-    return state;
+    return state!;
   }
 }
 
@@ -86,7 +84,7 @@ class GameControl extends State<Game> with RouteAware {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    routeObserver.subscribe(this, ModalRoute.of(context));
+    routeObserver.subscribe(this, ModalRoute.of(context)!);
   }
 
   @override
@@ -119,7 +117,7 @@ class GameControl extends State<Game> with RouteAware {
 
   int _cleared = 0;
 
-  Block _current;
+  Block? _current;
 
   Block _next = Block.getRandom();
 
@@ -134,9 +132,9 @@ class GameControl extends State<Game> with RouteAware {
   SoundState get _sound => Sound.of(context);
 
   void rotate() {
-    if (_states == GameStates.running && _current != null) {
-      final next = _current.rotate();
-      if (next.isValidInMatrix(_data)) {
+    if (_states == GameStates.running) {
+      final next = _current?.rotate();
+      if (next != null && next.isValidInMatrix(_data)) {
         _current = next;
         _sound.rotate();
       }
@@ -147,9 +145,9 @@ class GameControl extends State<Game> with RouteAware {
   void right() {
     if (_states == GameStates.none && _level < _LEVEL_MAX) {
       _level++;
-    } else if (_states == GameStates.running && _current != null) {
-      final next = _current.right();
-      if (next.isValidInMatrix(_data)) {
+    } else if (_states == GameStates.running) {
+      final next = _current?.right();
+      if (next != null && next.isValidInMatrix(_data)) {
         _current = next;
         _sound.move();
       }
@@ -160,9 +158,9 @@ class GameControl extends State<Game> with RouteAware {
   void left() {
     if (_states == GameStates.none && _level > _LEVEL_MIN) {
       _level--;
-    } else if (_states == GameStates.running && _current != null) {
-      final next = _current.left();
-      if (next.isValidInMatrix(_data)) {
+    } else if (_states == GameStates.running) {
+      final next = _current?.left();
+      if (next != null && next.isValidInMatrix(_data)) {
         _current = next;
         _sound.move();
       }
@@ -171,11 +169,11 @@ class GameControl extends State<Game> with RouteAware {
   }
 
   void drop() async {
-    if (_states == GameStates.running && _current != null) {
+    if (_states == GameStates.running) {
       for (int i = 0; i < GAME_PAD_MATRIX_H; i++) {
-        final fall = _current.fall(step: i + 1);
-        if (!fall.isValidInMatrix(_data)) {
-          _current = _current.fall(step: i);
+        final fall = _current?.fall(step: i + 1);
+        if (fall != null && !fall.isValidInMatrix(_data)) {
+          _current = _current?.fall(step: i);
           _states = GameStates.drop;
           setState(() {});
           await Future.delayed(const Duration(milliseconds: 100));
@@ -190,9 +188,9 @@ class GameControl extends State<Game> with RouteAware {
   }
 
   void down({bool enableSounds = true}) {
-    if (_states == GameStates.running && _current != null) {
-      final next = _current.fall();
-      if (next.isValidInMatrix(_data)) {
+    if (_states == GameStates.running) {
+      final next = _current?.fall();
+      if (next != null && next.isValidInMatrix(_data)) {
         _current = next;
         if (enableSounds) {
           _sound.move();
@@ -204,17 +202,17 @@ class GameControl extends State<Game> with RouteAware {
     setState(() {});
   }
 
-  Timer _autoFallTimer;
+  Timer? _autoFallTimer;
 
   ///mix current into [_data]
-  Future<void> _mixCurrentIntoData({void mixSound()}) async {
+  Future<void> _mixCurrentIntoData({VoidCallback? mixSound}) async {
     if (_current == null) {
       return;
     }
     //cancel the auto falling task
     _autoFall(false);
 
-    _forTable((i, j) => _data[i][j] = _current.get(j, i) ?? _data[i][j]);
+    _forTable((i, j) => _data[i][j] = _current?.get(j, i) ?? _data[i][j]);
 
     //消除行
     final clearLines = [];
@@ -255,8 +253,8 @@ class GameControl extends State<Game> with RouteAware {
       _level = level <= _LEVEL_MAX && level > _level ? level : _level;
     } else {
       _states = GameStates.mixing;
-      if (mixSound != null) mixSound();
-      _forTable((i, j) => _mask[i][j] = _current.get(j, i) ?? _mask[i][j]);
+      mixSound?.call();
+      _forTable((i, j) => _mask[i][j] = _current?.get(j, i) ?? _mask[i][j]);
       setState(() {});
       await Future.delayed(const Duration(milliseconds: 200));
       _forTable((i, j) => _mask[i][j] = 0);
@@ -291,8 +289,8 @@ class GameControl extends State<Game> with RouteAware {
   }
 
   void _autoFall(bool enable) {
-    if (!enable && _autoFallTimer != null) {
-      _autoFallTimer.cancel();
+    if (!enable) {
+      _autoFallTimer?.cancel();
       _autoFallTimer = null;
     } else if (enable) {
       _autoFallTimer?.cancel();
@@ -397,10 +395,17 @@ class GameControl extends State<Game> with RouteAware {
 }
 
 class GameState extends InheritedWidget {
-  GameState(this.data, this.states, this.level, this.muted, this.points,
-      this.cleared, this.next,
-      {Key key, this.child})
-      : super(key: key, child: child);
+  GameState(
+    this.data,
+    this.states,
+    this.level,
+    this.muted,
+    this.points,
+    this.cleared,
+    this.next, {
+    Key? key,
+    required this.child,
+  }) : super(key: key, child: child);
 
   final Widget child;
 
@@ -423,7 +428,7 @@ class GameState extends InheritedWidget {
   final Block next;
 
   static GameState of(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType<GameState>();
+    return context.dependOnInheritedWidgetOfExactType<GameState>()!;
   }
 
   @override

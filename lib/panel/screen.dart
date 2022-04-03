@@ -16,7 +16,10 @@ class Screen extends StatelessWidget {
   ///the with of screen
   final double width;
 
-  const Screen({Key key, @required this.width}) : super(key: key);
+  const Screen({
+    Key? key,
+    required this.width,
+  }) : super(key: key);
 
   Screen.fromHeight(double height) : this(width: ((height - 6) / 2 + 6) / 0.6);
 
@@ -57,8 +60,11 @@ class Shake extends StatefulWidget {
   ///true to shake screen vertically
   final bool shake;
 
-  const Shake({Key key, @required this.child, @required this.shake})
-      : super(key: key);
+  const Shake({
+    Key? key,
+    required this.child,
+    required this.shake,
+  }) : super(key: key);
 
   @override
   _ShakeState createState() => _ShakeState();
@@ -66,7 +72,7 @@ class Shake extends StatefulWidget {
 
 ///摇晃屏幕
 class _ShakeState extends State<Shake> with TickerProviderStateMixin {
-  AnimationController _controller;
+  late AnimationController _controller;
 
   @override
   void initState() {
