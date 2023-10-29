@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 
-const _COLOR_NORMAL = Colors.black87;
-
-const _COLOR_NULL = Colors.black12;
-
-const _COLOR_HIGHLIGHT = Color(0xFF560000);
+const colorNormal = Colors.black87;
+const colorNull = Colors.black12;
+const colorHighlight = Color(0xFF560000);
 
 class BrikSize extends InheritedWidget {
   const BrikSize({
@@ -33,11 +31,11 @@ class Brik extends StatelessWidget {
 
   const Brik._({Key? key, required this.color}) : super(key: key);
 
-  const Brik.normal() : this._(color: _COLOR_NORMAL);
+  const Brik.normal() : this._(color: colorNormal);
 
-  const Brik.empty() : this._(color: _COLOR_NULL);
+  const Brik.empty() : this._(color: colorNull);
 
-  const Brik.highlight() : this._(color: _COLOR_HIGHLIGHT);
+  const Brik.highlight() : this._(color: colorHighlight);
 
   @override
   Widget build(BuildContext context) {

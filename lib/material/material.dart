@@ -1,5 +1,4 @@
 import 'dart:ui' as ui;
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -12,7 +11,7 @@ class GameMaterial extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _GameMaterialState createState() => _GameMaterialState();
+  State<GameMaterial> createState() => _GameMaterialState();
 
   static ui.Image getMaterial(BuildContext context) {
     final state = context.findAncestorStateOfType<_GameMaterialState>();

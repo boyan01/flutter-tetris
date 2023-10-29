@@ -11,7 +11,7 @@ import 'gamer/keyboard.dart';
 void main() {
   debugDefaultTargetPlatformOverride = TargetPlatform.fuchsia;
   _disableDebugPrint();
-  runApp(MyApp());
+  runApp(const MainApp());
 }
 
 void _disableDebugPrint() {
@@ -29,13 +29,15 @@ void _disableDebugPrint() {
 
 final RouteObserver<ModalRoute> routeObserver = RouteObserver<ModalRoute>();
 
-class MyApp extends StatelessWidget {
+class MainApp extends StatelessWidget {
+  const MainApp({super.key});
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'tetris',
-      localizationsDelegates: [
+      localizationsDelegates: const [
         S.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate
@@ -52,15 +54,15 @@ class MyApp extends StatelessWidget {
   }
 }
 
-const SCREEN_BORDER_WIDTH = 3.0;
+const screenBorderWidth = 3.0;
 
-const BACKGROUND_COLOR = const Color(0xffefcc19);
+const backgroundColor = Color(0xffefcc19);
 
 class _HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //only Android/iOS support land mode
     bool land = MediaQuery.of(context).orientation == Orientation.landscape;
-    return land ? PageLand() : PagePortrait();
+    return land ? const PageLand() : const PagePortrait();
   }
 }

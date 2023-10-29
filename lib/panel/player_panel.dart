@@ -3,10 +3,10 @@ import 'package:tetris/material/briks.dart';
 import 'package:tetris/material/images.dart';
 import 'package:tetris/gamer/gamer.dart';
 
-const _PLAYER_PANEL_PADDING = 6;
+const playerPanelPadding = 6;
 
 Size getBrikSizeForScreenWidth(double width) {
-  return Size.square((width - _PLAYER_PANEL_PADDING) / GAME_PAD_MATRIX_W);
+  return Size.square((width - playerPanelPadding) / gamePadMatrixW);
 }
 
 ///the matrix of player content
@@ -27,7 +27,7 @@ class PlayerPanel extends StatelessWidget {
     return SizedBox.fromSize(
       size: size,
       child: Container(
-        padding: EdgeInsets.all(2),
+        padding: const EdgeInsets.all(2),
         decoration: BoxDecoration(
           border: Border.all(color: Colors.black),
         ),
@@ -65,7 +65,7 @@ class _GameUninitialized extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (GameState.of(context).states == GameStates.none) {
-      return Center(
+      return const Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[

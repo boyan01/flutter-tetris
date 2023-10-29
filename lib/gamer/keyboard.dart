@@ -6,11 +6,10 @@ import 'gamer.dart';
 ///keyboard controller to play game
 class KeyboardController extends StatefulWidget {
   final Widget child;
-
-  KeyboardController({required this.child});
+  const KeyboardController({super.key, required this.child});
 
   @override
-  _KeyboardControllerState createState() => _KeyboardControllerState();
+  State<KeyboardController> createState() => _KeyboardControllerState();
 }
 
 class _KeyboardControllerState extends State<KeyboardController> {
