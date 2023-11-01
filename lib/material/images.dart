@@ -44,9 +44,7 @@ class IconDragon extends StatefulWidget {
   const IconDragon({Key? key, this.animate = false}) : super(key: key);
 
   @override
-  _IconDragonState createState() {
-    return new _IconDragonState();
-  }
+  State<IconDragon> createState() => _IconDragonState();
 }
 
 class _IconDragonState extends State<IconDragon> {
