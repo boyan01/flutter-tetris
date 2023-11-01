@@ -19,7 +19,7 @@ class Sound extends StatefulWidget {
   }
 }
 
-const _SOUNDS = [
+const sounds = [
   'clean.mp3',
   'drop.mp3',
   'explosion.mp3',
@@ -31,7 +31,7 @@ const _SOUNDS = [
 class SoundState extends State<Sound> {
   late Soundpool _pool;
 
-  final _soundIds = Map<String, int>();
+  final _soundIds = <String, int>{};
 
   bool mute = false;
 
@@ -45,8 +45,9 @@ class SoundState extends State<Sound> {
   @override
   void initState() {
     super.initState();
-    _pool = Soundpool.fromOptions(options: SoundpoolOptions(maxStreams: 6));
-    for (var value in _SOUNDS) {
+    _pool =
+        Soundpool.fromOptions(options: const SoundpoolOptions(maxStreams: 6));
+    for (var value in sounds) {
       scheduleMicrotask(() async {
         final data = await rootBundle.load('assets/audios/$value');
         _soundIds[value] = await _pool.load(data);
