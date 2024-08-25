@@ -1,7 +1,7 @@
 import 'gamer.dart';
 import 'dart:math' as math;
 
-const BLOCK_SHAPES = {
+const blockShapes = {
   BlockType.I: [
     [1, 1, 1, 1]
   ],
@@ -32,7 +32,7 @@ const BLOCK_SHAPES = {
 };
 
 ///方块初始化时的位置
-const START_XY = {
+const startXy = {
   BlockType.I: [3, 0],
   BlockType.L: [4, -1],
   BlockType.J: [4, -1],
@@ -43,7 +43,7 @@ const START_XY = {
 };
 
 ///方块变换时的中心点
-const ORIGIN = {
+const origin = {
   BlockType.I: [
     [1, -1],
     [-1, 1],
@@ -105,19 +105,19 @@ class Block {
       }
     }
     final nextXy = [
-      this.xy[0] + ORIGIN[type]![rotateIndex][0],
-      this.xy[1] + ORIGIN[type]![rotateIndex][1]
+      xy[0] + origin[type]![rotateIndex][0],
+      xy[1] + origin[type]![rotateIndex][1]
     ];
     final nextRotateIndex =
-        rotateIndex + 1 >= ORIGIN[this.type]!.length ? 0 : rotateIndex + 1;
+        rotateIndex + 1 >= origin[type]!.length ? 0 : rotateIndex + 1;
 
     return Block(type, result, nextXy, nextRotateIndex);
   }
 
   bool isValidInMatrix(List<List<int>> matrix) {
-    if (xy[1] + shape.length > GAME_PAD_MATRIX_H ||
+    if (xy[1] + shape.length > gamePadMatrixH ||
         xy[0] < 0 ||
-        xy[0] + shape[0].length > GAME_PAD_MATRIX_W) {
+        xy[0] + shape[0].length > gamePadMatrixW) {
       return false;
     }
     for (var i = 0; i < matrix.length; i++) {
@@ -143,8 +143,8 @@ class Block {
   }
 
   static Block fromType(BlockType type) {
-    final shape = BLOCK_SHAPES[type];
-    return Block(type, shape!, START_XY[type]!, 0);
+    final shape = blockShapes[type];
+    return Block(type, shape!, startXy[type]!, 0);
   }
 
   static Block getRandom() {

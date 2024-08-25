@@ -1,11 +1,9 @@
 import 'dart:async';
 import 'dart:ui' as ui;
-
 import 'package:flutter/material.dart';
-
 import 'material.dart';
 
-const _DIGITAL_ROW_SIZE = Size(14, 24);
+const digitalRowSize = Size(14, 24);
 
 class Number extends StatelessWidget {
   final int length;
@@ -13,10 +11,9 @@ class Number extends StatelessWidget {
   ///the number to show
   ///could be null
   final int number;
-
   final bool padWithZero;
 
-  Number({
+  const Number({
     Key? key,
     this.length = 5,
     required this.number,
@@ -47,9 +44,7 @@ class IconDragon extends StatefulWidget {
   const IconDragon({Key? key, this.animate = false}) : super(key: key);
 
   @override
-  _IconDragonState createState() {
-    return new _IconDragonState();
-  }
+  State<IconDragon> createState() => _IconDragonState();
 }
 
 class _IconDragonState extends State<IconDragon> {
@@ -164,7 +159,7 @@ class IconColon extends StatelessWidget {
     return _Material(
       size: size,
       srcOffset: enable ? const Offset(229, 25) : const Offset(243, 25),
-      srcSize: _DIGITAL_ROW_SIZE,
+      srcSize: digitalRowSize,
     );
   }
 }
@@ -177,7 +172,7 @@ class Digital extends StatelessWidget {
 
   final Size size;
 
-  Digital(this.digital, {Key? key, this.size = const Size(10, 17)})
+  const Digital(this.digital, {Key? key, this.size = const Size(10, 17)})
       : assert((digital <= 9 && digital >= 0)),
         super(key: key);
 
@@ -186,7 +181,7 @@ class Digital extends StatelessWidget {
     return _Material(
       size: size,
       srcOffset: _getDigitalOffset(),
-      srcSize: _DIGITAL_ROW_SIZE,
+      srcSize: digitalRowSize,
     );
   }
 
@@ -238,7 +233,7 @@ class _MaterialPainter extends CustomPainter {
 
   _MaterialPainter(this.offset, this.size, this.material);
 
-  Paint _paint = Paint();
+  final Paint _paint = Paint();
 
   @override
   void paint(Canvas canvas, Size size) {

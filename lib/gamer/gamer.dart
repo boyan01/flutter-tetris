@@ -6,10 +6,10 @@ import 'package:tetris/main.dart';
 import 'package:tetris/material/audios.dart';
 
 ///the height of game pad
-const GAME_PAD_MATRIX_H = 20;
+const gamePadMatrixH = 20;
 
 ///the width of game pad
-const GAME_PAD_MATRIX_W = 10;
+const gamePadMatrixW = 10;
 
 ///state of [GameControl]
 enum GameStates {
@@ -57,27 +57,27 @@ class Game extends StatefulWidget {
 }
 
 ///duration for show a line when reset
-const _REST_LINE_DURATION = const Duration(milliseconds: 50);
+const restLineDuration = Duration(milliseconds: 50);
 
-const _LEVEL_MAX = 6;
+const levelMax = 6;
 
-const _LEVEL_MIN = 1;
+const levelMin = 1;
 
-const _SPEED = [
-  const Duration(milliseconds: 800),
-  const Duration(milliseconds: 650),
-  const Duration(milliseconds: 500),
-  const Duration(milliseconds: 370),
-  const Duration(milliseconds: 250),
-  const Duration(milliseconds: 160),
+const speed = [
+  Duration(milliseconds: 800),
+  Duration(milliseconds: 650),
+  Duration(milliseconds: 500),
+  Duration(milliseconds: 370),
+  Duration(milliseconds: 250),
+  Duration(milliseconds: 160),
 ];
 
 class GameControl extends State<Game> with RouteAware {
   GameControl() {
     //inflate game pad data
-    for (int i = 0; i < GAME_PAD_MATRIX_H; i++) {
-      _data.add(List.filled(GAME_PAD_MATRIX_W, 0));
-      _mask.add(List.filled(GAME_PAD_MATRIX_W, 0));
+    for (int i = 0; i < gamePadMatrixH; i++) {
+      _data.add(List.filled(gamePadMatrixW, 0));
+      _mask.add(List.filled(gamePadMatrixW, 0));
     }
   }
 
@@ -143,7 +143,7 @@ class GameControl extends State<Game> with RouteAware {
   }
 
   void right() {
-    if (_states == GameStates.none && _level < _LEVEL_MAX) {
+    if (_states == GameStates.none && _level < levelMax) {
       _level++;
     } else if (_states == GameStates.running) {
       final next = _current?.right();
@@ -156,7 +156,7 @@ class GameControl extends State<Game> with RouteAware {
   }
 
   void left() {
-    if (_states == GameStates.none && _level > _LEVEL_MIN) {
+    if (_states == GameStates.none && _level > levelMin) {
       _level--;
     } else if (_states == GameStates.running) {
       final next = _current?.left();
@@ -170,7 +170,7 @@ class GameControl extends State<Game> with RouteAware {
 
   void drop() async {
     if (_states == GameStates.running) {
-      for (int i = 0; i < GAME_PAD_MATRIX_H; i++) {
+      for (int i = 0; i < gamePadMatrixH; i++) {
         final fall = _current?.fall(step: i + 1);
         if (fall != null && !fall.isValidInMatrix(_data)) {
           _current = _current?.fall(step: i);
@@ -216,7 +216,7 @@ class GameControl extends State<Game> with RouteAware {
 
     //消除行
     final clearLines = [];
-    for (int i = 0; i < GAME_PAD_MATRIX_H; i++) {
+    for (int i = 0; i < gamePadMatrixH; i++) {
       if (_data[i].every((d) => d == 1)) {
         clearLines.add(i);
       }
@@ -230,18 +230,17 @@ class GameControl extends State<Game> with RouteAware {
       ///消除效果动画
       for (int count = 0; count < 5; count++) {
         clearLines.forEach((line) {
-          _mask[line].fillRange(0, GAME_PAD_MATRIX_W, count % 2 == 0 ? -1 : 1);
+          _mask[line].fillRange(0, gamePadMatrixW, count % 2 == 0 ? -1 : 1);
         });
         setState(() {});
-        await Future.delayed(Duration(milliseconds: 100));
+        await Future.delayed(const Duration(milliseconds: 100));
       }
-      clearLines
-          .forEach((line) => _mask[line].fillRange(0, GAME_PAD_MATRIX_W, 0));
+      clearLines.forEach((line) => _mask[line].fillRange(0, gamePadMatrixW, 0));
 
       //移除所有被消除的行
       clearLines.forEach((line) {
         _data.setRange(1, line + 1, _data);
-        _data[0] = List.filled(GAME_PAD_MATRIX_W, 0);
+        _data[0] = List.filled(gamePadMatrixW, 0);
       });
       debugPrint("clear lines : $clearLines");
 
@@ -249,8 +248,8 @@ class GameControl extends State<Game> with RouteAware {
       _points += clearLines.length * _level * 5;
 
       //up level possible when cleared
-      int level = (_cleared ~/ 50) + _LEVEL_MIN;
-      _level = level <= _LEVEL_MAX && level > _level ? level : _level;
+      int level = (_cleared ~/ 50) + levelMin;
+      _level = level <= levelMax && level > _level ? level : _level;
     } else {
       _states = GameStates.mixing;
       mixSound?.call();
@@ -278,8 +277,8 @@ class GameControl extends State<Game> with RouteAware {
   ///i 为 row
   ///j 为 column
   static void _forTable(dynamic function(int row, int column)) {
-    for (int i = 0; i < GAME_PAD_MATRIX_H; i++) {
-      for (int j = 0; j < GAME_PAD_MATRIX_W; j++) {
+    for (int i = 0; i < gamePadMatrixH; i++) {
+      for (int j = 0; j < gamePadMatrixW; j++) {
         final b = function(i, j);
         if (b is bool && b) {
           break;
@@ -295,7 +294,7 @@ class GameControl extends State<Game> with RouteAware {
     } else if (enable) {
       _autoFallTimer?.cancel();
       _current = _current ?? _getNext();
-      _autoFallTimer = Timer.periodic(_SPEED[_level - 1], (t) {
+      _autoFallTimer = Timer.periodic(speed[_level - 1], (t) {
         down(enableSounds: false);
       });
     }
@@ -328,14 +327,14 @@ class GameControl extends State<Game> with RouteAware {
     _sound.start();
     _states = GameStates.reset;
     () async {
-      int line = GAME_PAD_MATRIX_H;
+      int line = gamePadMatrixH;
       await Future.doWhile(() async {
         line--;
-        for (int i = 0; i < GAME_PAD_MATRIX_W; i++) {
+        for (int i = 0; i < gamePadMatrixW; i++) {
           _data[line][i] = 1;
         }
         setState(() {});
-        await Future.delayed(_REST_LINE_DURATION);
+        await Future.delayed(restLineDuration);
         return line != 0;
       });
       _current = null;
@@ -343,13 +342,13 @@ class GameControl extends State<Game> with RouteAware {
       _points = 0;
       _cleared = 0;
       await Future.doWhile(() async {
-        for (int i = 0; i < GAME_PAD_MATRIX_W; i++) {
+        for (int i = 0; i < gamePadMatrixW; i++) {
           _data[line][i] = 0;
         }
         setState(() {});
         line++;
-        await Future.delayed(_REST_LINE_DURATION);
-        return line != GAME_PAD_MATRIX_H;
+        await Future.delayed(restLineDuration);
+        return line != gamePadMatrixH;
       });
       setState(() {
         _states = GameStates.none;
@@ -369,9 +368,9 @@ class GameControl extends State<Game> with RouteAware {
   @override
   Widget build(BuildContext context) {
     List<List<int>> mixed = [];
-    for (var i = 0; i < GAME_PAD_MATRIX_H; i++) {
-      mixed.add(List.filled(GAME_PAD_MATRIX_W, 0));
-      for (var j = 0; j < GAME_PAD_MATRIX_W; j++) {
+    for (var i = 0; i < gamePadMatrixH; i++) {
+      mixed.add(List.filled(gamePadMatrixW, 0));
+      for (var j = 0; j < gamePadMatrixW; j++) {
         int value = _current?.get(j, i) ?? _data[i][j];
         if (_mask[i][j] == -1) {
           value = 0;
@@ -395,7 +394,7 @@ class GameControl extends State<Game> with RouteAware {
 }
 
 class GameState extends InheritedWidget {
-  GameState(
+  const GameState(
     this.data,
     this.states,
     this.level,
