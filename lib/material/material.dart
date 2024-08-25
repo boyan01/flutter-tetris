@@ -6,9 +6,9 @@ class GameMaterial extends StatefulWidget {
   final Widget child;
 
   const GameMaterial({
-    Key? key,
+    super.key,
     required this.child,
-  }) : super(key: key);
+  });
 
   @override
   State<GameMaterial> createState() => _GameMaterialState();

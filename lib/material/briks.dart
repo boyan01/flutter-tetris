@@ -4,44 +4,44 @@ const colorNormal = Colors.black87;
 const colorNull = Colors.black12;
 const colorHighlight = Color(0xFF560000);
 
-class BrikSize extends InheritedWidget {
-  const BrikSize({
-    Key? key,
+class BrickSize extends InheritedWidget {
+  const BrickSize({
+    super.key,
     required this.size,
-    required Widget child,
-  }) : super(key: key, child: child);
+    required super.child,
+  });
 
   final Size size;
 
-  static BrikSize of(BuildContext context) {
-    final brikSize = context.dependOnInheritedWidgetOfExactType<BrikSize>();
-    assert(brikSize != null, "....");
-    return brikSize!;
+  static BrickSize of(BuildContext context) {
+    final brickSize = context.dependOnInheritedWidgetOfExactType<BrickSize>();
+    assert(brickSize != null, "....");
+    return brickSize!;
   }
 
   @override
-  bool updateShouldNotify(BrikSize old) {
-    return old.size != size;
+  bool updateShouldNotify(BrickSize oldWidget) {
+    return oldWidget.size != size;
   }
 }
 
-///the basic brik for game panel
-class Brik extends StatelessWidget {
+///the basic brick for game panel
+class Brick extends StatelessWidget {
   final Color color;
 
-  const Brik._({Key? key, required this.color}) : super(key: key);
+  const Brick._({super.key, required this.color});
 
-  const Brik.normal() : this._(color: colorNormal);
+  const Brick.normal({Key? key}) : this._(color: colorNormal, key: key);
 
-  const Brik.empty() : this._(color: colorNull);
+  const Brick.empty({Key? key}) : this._(color: colorNull, key: key);
 
-  const Brik.highlight() : this._(color: colorHighlight);
+  const Brick.highlight({Key? key}) : this._(color: colorHighlight, key: key);
 
   @override
   Widget build(BuildContext context) {
-    final width = BrikSize.of(context).size.width;
+    final width = BrickSize.of(context).size.width;
     return SizedBox.fromSize(
-      size: BrikSize.of(context).size,
+      size: BrickSize.of(context).size,
       child: Container(
         margin: EdgeInsets.all(0.05 * width),
         padding: EdgeInsets.all(0.1 * width),

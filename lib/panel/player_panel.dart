@@ -15,11 +15,10 @@ class PlayerPanel extends StatelessWidget {
   final Size size;
 
   PlayerPanel({
-    Key? key,
+    super.key,
     required double width,
   })  : assert(width != 0),
-        size = Size(width, width * 2),
-        super(key: key);
+        size = Size(width, width * 2);
 
   @override
   Widget build(BuildContext context) {
@@ -50,10 +49,10 @@ class _PlayerPad extends StatelessWidget {
         return Row(
           children: list.map((b) {
             return b == 1
-                ? const Brik.normal()
+                ? const Brick.normal()
                 : b == 2
-                    ? const Brik.highlight()
-                    : const Brik.empty();
+                    ? const Brick.highlight()
+                    : const Brick.empty();
           }).toList(),
         );
       }).toList(),

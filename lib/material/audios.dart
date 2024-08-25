@@ -7,7 +7,7 @@ import 'package:soundpool/soundpool.dart';
 class Sound extends StatefulWidget {
   final Widget child;
 
-  const Sound({Key? key, required this.child}) : super(key: key);
+  const Sound({super.key, required this.child});
 
   @override
   SoundState createState() => SoundState();

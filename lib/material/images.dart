@@ -14,11 +14,11 @@ class Number extends StatelessWidget {
   final bool padWithZero;
 
   const Number({
-    Key? key,
+    super.key,
     this.length = 5,
     required this.number,
     this.padWithZero = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +41,7 @@ class Number extends StatelessWidget {
 class IconDragon extends StatefulWidget {
   final bool animate;
 
-  const IconDragon({Key? key, this.animate = false}) : super(key: key);
+  const IconDragon({super.key, this.animate = false});
 
   @override
   State<IconDragon> createState() => _IconDragonState();
@@ -113,9 +113,11 @@ class IconPause extends StatelessWidget {
   final bool enable;
   final Size size;
 
-  const IconPause(
-      {Key? key, this.enable = true, this.size = const Size(18, 16)})
-      : super(key: key);
+  const IconPause({
+    super.key,
+    this.enable = true,
+    this.size = const Size(18, 16),
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -131,9 +133,11 @@ class IconSound extends StatelessWidget {
   final bool enable;
   final Size size;
 
-  const IconSound(
-      {Key? key, this.enable = true, this.size = const Size(18, 16)})
-      : super(key: key);
+  const IconSound({
+    super.key,
+    this.enable = true,
+    this.size = const Size(18, 16),
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -150,9 +154,11 @@ class IconColon extends StatelessWidget {
 
   final Size size;
 
-  const IconColon(
-      {Key? key, this.enable = true, this.size = const Size(10, 17)})
-      : super(key: key);
+  const IconColon({
+    super.key,
+    this.enable = true,
+    this.size = const Size(10, 17),
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -172,9 +178,11 @@ class Digital extends StatelessWidget {
 
   final Size size;
 
-  const Digital(this.digital, {Key? key, this.size = const Size(10, 17)})
-      : assert((digital <= 9 && digital >= 0)),
-        super(key: key);
+  const Digital(
+    this.digital, {
+    super.key,
+    this.size = const Size(10, 17),
+  }) : assert((digital <= 9 && digital >= 0));
 
   @override
   Widget build(BuildContext context) {
@@ -201,11 +209,10 @@ class _Material extends StatelessWidget {
   final Offset srcOffset;
 
   const _Material({
-    Key? key,
     required this.size,
     required this.srcSize,
     required this.srcOffset,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

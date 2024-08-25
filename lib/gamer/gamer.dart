@@ -42,7 +42,7 @@ enum GameStates {
 class Game extends StatefulWidget {
   final Widget child;
 
-  const Game({Key? key, required this.child}) : super(key: key);
+  const Game({super.key, required this.child});
 
   @override
   State<StatefulWidget> createState() {
@@ -229,19 +229,21 @@ class GameControl extends State<Game> with RouteAware {
 
       ///消除效果动画
       for (int count = 0; count < 5; count++) {
-        clearLines.forEach((line) {
+        for (var line in clearLines) {
           _mask[line].fillRange(0, gamePadMatrixW, count % 2 == 0 ? -1 : 1);
-        });
+        }
         setState(() {});
         await Future.delayed(const Duration(milliseconds: 100));
       }
-      clearLines.forEach((line) => _mask[line].fillRange(0, gamePadMatrixW, 0));
+      for (var line in clearLines) {
+        _mask[line].fillRange(0, gamePadMatrixW, 0);
+      }
 
       //移除所有被消除的行
-      clearLines.forEach((line) {
+      for (var line in clearLines) {
         _data.setRange(1, line + 1, _data);
         _data[0] = List.filled(gamePadMatrixW, 0);
-      });
+      }
       debugPrint("clear lines : $clearLines");
 
       _cleared += clearLines.length;
@@ -276,10 +278,10 @@ class GameControl extends State<Game> with RouteAware {
   ///遍历表格
   ///i 为 row
   ///j 为 column
-  static void _forTable(dynamic function(int row, int column)) {
+  static void _forTable(dynamic Function(int row, int column) callback) {
     for (int i = 0; i < gamePadMatrixH; i++) {
       for (int j = 0; j < gamePadMatrixW; j++) {
-        final b = function(i, j);
+        final b = callback(i, j);
         if (b is bool && b) {
           break;
         }
@@ -402,16 +404,14 @@ class GameState extends InheritedWidget {
     this.points,
     this.cleared,
     this.next, {
-    Key? key,
-    required this.child,
-  }) : super(key: key, child: child);
+    super.key,
+    required super.child,
+  });
 
-  final Widget child;
-
-  ///屏幕展示数据
-  ///0: 空砖块
-  ///1: 普通砖块
-  ///2: 高亮砖块
+  /// Brick data
+  ///0: empty
+  ///1: normal
+  ///2: highlight
   final List<List<int>> data;
 
   final GameStates states;

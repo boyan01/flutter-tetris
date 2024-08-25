@@ -17,12 +17,12 @@ class Screen extends StatelessWidget {
   final double width;
 
   const Screen({
-    Key? key,
+    super.key,
     required this.width,
-  }) : super(key: key);
+  });
 
-  const Screen.fromHeight(double height)
-      : this(width: ((height - 6) / 2 + 6) / 0.6);
+  const Screen.fromHeight(double height, {Key? key})
+      : this(width: ((height - 6) / 2 + 6) / 0.6, key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +36,7 @@ class Screen extends StatelessWidget {
         child: Container(
           color: screenBackground,
           child: GameMaterial(
-            child: BrikSize(
+            child: BrickSize(
               size: getBrikSizeForScreenWidth(playerPanelWidth),
               child: Row(
                 children: <Widget>[
@@ -62,10 +62,10 @@ class Shake extends StatefulWidget {
   final bool shake;
 
   const Shake({
-    Key? key,
+    super.key,
     required this.child,
     required this.shake,
-  }) : super(key: key);
+  });
 
   @override
   State<Shake> createState() => _ShakeState();

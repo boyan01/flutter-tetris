@@ -226,7 +226,6 @@ class LeftController extends StatelessWidget {
 
 class _Button extends StatefulWidget {
   final Size size;
-  final Widget? icon;
 
   final VoidCallback onTap;
 
@@ -236,13 +235,11 @@ class _Button extends StatefulWidget {
   final bool enableLongPress;
 
   const _Button({
-    Key? key,
     required this.size,
     required this.onTap,
-    this.icon,
     this.color = Colors.blue,
     this.enableLongPress = true,
-  }) : super(key: key);
+  });
 
   @override
   _ButtonState createState() {
@@ -259,11 +256,10 @@ class _Description extends StatelessWidget {
   final AxisDirection direction;
 
   const _Description({
-    Key? key,
     required this.text,
     this.direction = AxisDirection.down,
     required this.child,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

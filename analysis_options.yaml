@@ -1,1 +1,12 @@
 include: package:flutter_lints/flutter.yaml
+
+analyzer:
+  errors:
+    unused_element: ignore
+
+  exclude:
+    - 'lib/i18n/messages_*.dart'
+    - 'lib/generated/**'
+    - '**.g.dart'
+    - 'third_party/**'
+    - 'lib/constants/resources.preview.dart'

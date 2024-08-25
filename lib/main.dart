@@ -9,7 +9,6 @@ import 'package:tetris/panel/page_portrait.dart';
 import 'gamer/keyboard.dart';
 
 void main() {
-  debugDefaultTargetPlatformOverride = TargetPlatform.fuchsia;
   _disableDebugPrint();
   runApp(const MainApp());
 }
