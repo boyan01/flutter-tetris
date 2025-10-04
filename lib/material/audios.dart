@@ -1,8 +1,5 @@
-import 'dart:async';
-
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:soundpool/soundpool.dart';
 
 class Sound extends StatefulWidget {
   final Widget child;
@@ -29,28 +26,24 @@ const sounds = [
 ];
 
 class SoundState extends State<Sound> {
-  late Soundpool _pool;
-
-  final _soundIds = <String, int>{};
+  final _soundPlayers = <String, AudioPool>{};
 
   bool mute = false;
 
   void _play(String name) {
-    final soundId = _soundIds[name];
-    if (soundId != null && !mute) {
-      _pool.play(soundId);
+    final player = _soundPlayers[name];
+    if (player != null && !mute) {
+      player.start();
     }
   }
 
   @override
   void initState() {
     super.initState();
-    _pool =
-        Soundpool.fromOptions(options: const SoundpoolOptions(maxStreams: 6));
-    for (var value in sounds) {
-      scheduleMicrotask(() async {
-        final data = await rootBundle.load('assets/audios/$value');
-        _soundIds[value] = await _pool.load(data);
+    FlameAudio.updatePrefix('assets/audios/');
+    for (final sound in sounds) {
+      FlameAudio.createPool(sound, maxPlayers: 3).then((pool) {
+        _soundPlayers[sound] = pool;
       });
     }
   }
@@ -58,7 +51,7 @@ class SoundState extends State<Sound> {
   @override
   void dispose() {
     super.dispose();
-    _pool.dispose();
+    FlameAudio.audioCache.clearAll();
   }
 
   @override

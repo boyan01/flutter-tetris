@@ -12,13 +12,13 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   overlay_support: ^2.1.0
-  soundpool: ^2.4.1
+  flame_audio: ^2.11.10
   vector_math: ^2.1.4
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^4.0.0
+  flutter_lints: ^6.0.0
 
 flutter:
   uses-material-design: true

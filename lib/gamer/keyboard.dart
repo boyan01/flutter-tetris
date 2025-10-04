@@ -17,7 +17,6 @@ class _KeyboardControllerState extends State<KeyboardController> {
   @override
   void initState() {
     super.initState();
-    HardwareKeyboard.instance.addHandler(_onKey);
   }
 
   bool _onKey(KeyEvent event) {
@@ -54,6 +53,19 @@ class _KeyboardControllerState extends State<KeyboardController> {
 
   @override
   Widget build(BuildContext context) {
-    return widget.child;
+    final game = Game.of(context);
+    return CallbackShortcuts(
+      bindings: {
+        const SingleActivator(LogicalKeyboardKey.keyP): game.pauseOrResume,
+        const SingleActivator(LogicalKeyboardKey.keyS): game.soundSwitch,
+        const SingleActivator(LogicalKeyboardKey.keyR): game.reset,
+        const SingleActivator(LogicalKeyboardKey.arrowUp): game.rotate,
+        const SingleActivator(LogicalKeyboardKey.arrowDown): game.down,
+        const SingleActivator(LogicalKeyboardKey.arrowLeft): game.left,
+        const SingleActivator(LogicalKeyboardKey.arrowRight): game.right,
+        const SingleActivator(LogicalKeyboardKey.space): game.drop,
+      },
+      child: Focus(autofocus: true, child: widget.child),
+    );
   }
 }
