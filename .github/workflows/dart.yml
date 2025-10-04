@@ -26,7 +26,7 @@ jobs:
       - run: flutter pub get
 
       - name: Build Web Project
-        run:  flutter build web
+        run:  flutter build web --base-href '/flutter-tetris/'
 
       - name: Deploy web To GH-Page
         uses: peaceiris/actions-gh-pages@v2.5.0
